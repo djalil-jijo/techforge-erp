@@ -3,156 +3,226 @@
 import React, { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StatCard } from "@/components/ui/StatCard";
-import { Search, Filter, Users, GraduationCap, Award } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface Student {
-  id: string;
-  name: string;
-  track: "Robotics" | "Electronics" | "3D Printing";
-  level: "Beginner" | "Intermediate" | "Advanced";
-  parent: string;
-  parentPhone: string;
-  attendance: number; // percentage
-  status: "Active" | "Suspended" | "Completed";
-}
-
-const MOCK_STUDENTS: Student[] = [
-  { id: "STU-801", name: "Amine Bouaziz", track: "Robotics", level: "Advanced", parent: "Mohamed Bouaziz", parentPhone: "0660 78 90 12", attendance: 92, status: "Active" },
-  { id: "STU-802", name: "Yasmine Haddad", track: "3D Printing", level: "Intermediate", parent: "Omar Haddad", parentPhone: "0555 12 34 56", attendance: 88, status: "Active" },
-  { id: "STU-803", name: "Karim Benamar", track: "Electronics", level: "Beginner", parent: "Zoubir Benamar", parentPhone: "0770 45 67 89", attendance: 95, status: "Active" },
-  { id: "STU-804", name: "Sara Merabet", track: "Robotics", level: "Advanced", parent: "Rachid Merabet", parentPhone: "0560 33 22 11", attendance: 75, status: "Active" },
-  { id: "STU-805", name: "Anis Merah", track: "Robotics", level: "Intermediate", parent: "Tayeb Merah", parentPhone: "0662 99 88 77", attendance: 64, status: "Suspended" },
-];
+import { MOCK_STUDENTS, MOCK_ASSIGNMENTS } from "@/lib/mock-data";
+import {
+  Users,
+  Search,
+  Filter,
+  Plus,
+  Edit2,
+  Trash2,
+  Award,
+  TrendingUp,
+  AlertCircle,
+} from "lucide-react";
+import { cn, formatNumberAr } from "@/lib/utils";
 
 export default function Students() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [trackFilter, setTrackFilter] = useState("All");
+  const [filterTrack, setFilterTrack] = useState("الكل");
+  const [filterStatus, setFilterStatus] = useState("الكل");
 
-  const filteredStudents = MOCK_STUDENTS.filter((stu) => {
-    const matchesSearch = stu.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          stu.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTrack = trackFilter === "All" || stu.track === trackFilter;
-    return matchesSearch && matchesTrack;
+  // Filter Students
+  let filteredStudents = MOCK_STUDENTS.filter((student) => {
+    const matchesSearch =
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTrack = filterTrack === "الكل" || student.track === filterTrack;
+    const matchesStatus = filterStatus === "الكل" || student.status === filterStatus;
+    return matchesSearch && matchesTrack && matchesStatus;
   });
 
-  const totalActive = MOCK_STUDENTS.filter(s => s.status === "Active").length;
+  const activeStudents = MOCK_STUDENTS.filter(
+    (s) => s.status === "نشط"
+  ).length;
+  const averageAttendance =
+    MOCK_STUDENTS.reduce((sum, s) => sum + s.attendanceRate, 0) /
+    MOCK_STUDENTS.length;
 
   return (
     <div className="space-y-8">
-      {/* Title */}
+      {/* ============= العنوان | Header ============= */}
       <div className="border-b border-obsidian-800 pb-6">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          Student Registries
-          <span className="text-xs bg-cyber-cyan/10 border border-cyber-cyan/35 text-cyber-cyan font-mono px-2 py-0.5 rounded-full font-bold">
-            Database Core
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-4xl font-extrabold text-white tracking-tight">
+            👥 إدارة الطلاب
+          </h1>
+          <span className="text-xs bg-cyber-cyan/10 border border-cyber-cyan/35 text-cyber-cyan font-mono px-3 py-1 rounded-full font-bold">
+            قاعدة البيانات
           </span>
-        </h1>
+        </div>
         <p className="text-gray-400 text-sm mt-1">
-          Access comprehensive member details, guardian links, and attendance ratios.
+          تسيير ملفات الطلاب وتوزيعهم على مسارات التدريب المتقدمة
         </p>
       </div>
 
-      {/* Metrics */}
+      {/* ============= بطاقات الإحصائيات | Metrics ============= */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <StatCard
-          title="Total Registered"
+          title="إجمالي الطلاب المسجلين"
           value={MOCK_STUDENTS.length}
-          change="All-time members"
+          change={`${activeStudents} نشط حالياً`}
           changeType="neutral"
           icon={Users}
           themeColor="cyan"
         />
         <StatCard
-          title="Active Profiles"
-          value={totalActive}
-          change="Currently attending classes"
+          title="متوسط الحضور"
+          value={`${Math.round(averageAttendance)}%`}
+          change="معدل الحضور الكلي"
           changeType="increase"
-          icon={GraduationCap}
+          icon={TrendingUp}
           themeColor="emerald"
         />
         <StatCard
-          title="Avg Attendance Rate"
-          value="82.8%"
-          change="Current term score"
+          title="الطلاب قيد المراجعة"
+          value={MOCK_STUDENTS.filter((s) => s.status === "معلق").length}
+          change="يحتاجون متابعة"
           changeType="neutral"
-          icon={Award}
-          themeColor="purple"
+          icon={AlertCircle}
+          themeColor="amber"
         />
       </div>
 
-      {/* Database View */}
-      <GlassCard className="space-y-6" hoverable={false}>
-        <div className="flex flex-col lg:flex-row gap-4 justify-between">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search student names, IDs or parents..."
-              className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyber-cyan"
-            />
+      {/* ============= فلاتر البحث | Filters ============= */}
+      <GlassCard className="p-6">
+        <div className="flex flex-col lg:flex-row gap-4 items-end">
+          <div className="flex-1">
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              🔍 بحث عن طالب
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="البحث بالاسم أو البريد الإلكتروني أو رقم التسجيل..."
+                className="w-full bg-obsidian-900/50 border border-obsidian-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
+              />
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-obsidian-950 px-3 py-2 rounded-xl border border-obsidian-850">
-            <Filter className="w-3.5 h-3.5 text-gray-500" />
+          <div>
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              🎓 المسار
+            </label>
             <select
-              value={trackFilter}
-              onChange={(e) => setTrackFilter(e.target.value)}
-              className="bg-transparent text-xs text-gray-300 focus:outline-none cursor-pointer pr-4 font-bold"
+              value={filterTrack}
+              onChange={(e) => setFilterTrack(e.target.value)}
+              className="bg-obsidian-900/50 border border-obsidian-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
             >
-              <option value="All" className="bg-obsidian-950">All Tracks</option>
-              <option value="Robotics" className="bg-obsidian-950">Robotics</option>
-              <option value="Electronics" className="bg-obsidian-950">Electronics</option>
-              <option value="3D Printing" className="bg-obsidian-950">3D Printing</option>
+              <option value="الكل">الكل</option>
+              <option value="الروبوتيك">الروبوتيك</option>
+              <option value="الإلكترونيات">الإلكترونيات</option>
+              <option value="البرمجة">البرمجة</option>
             </select>
           </div>
-        </div>
 
-        <div className="overflow-x-auto pt-2">
-          <table className="w-full text-left border-collapse text-xs">
+          <div>
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              📊 الحالة
+            </label>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="bg-obsidian-900/50 border border-obsidian-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
+            >
+              <option value="الكل">الكل</option>
+              <option value="نشط">نشط</option>
+              <option value="معلق">معلق</option>
+              <option value="متخرج">متخرج</option>
+            </select>
+          </div>
+
+          <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-cyber-cyan text-obsidian-950 font-semibold text-sm hover:shadow-lg hover:shadow-cyber-cyan/50 transition-all">
+            <Plus className="w-4 h-4" />
+            إضافة طالب
+          </button>
+        </div>
+      </GlassCard>
+
+      {/* ============= جدول الطلاب | Students Table ============= */}
+      <GlassCard className="overflow-hidden" hoverable={false}>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-obsidian-800 text-gray-500 font-mono uppercase">
-                <th className="pb-3 font-semibold">Student ID</th>
-                <th className="pb-3 font-semibold">Full Name</th>
-                <th className="pb-3 font-semibold">Track Path</th>
-                <th className="pb-3 font-semibold">Skill Level</th>
-                <th className="pb-3 font-semibold">Parent / Contact</th>
-                <th className="pb-3 font-semibold text-center">Attendance</th>
-                <th className="pb-3 font-semibold text-center">Status</th>
+              <tr className="bg-obsidian-900/50 border-b border-obsidian-800">
+                <th className="px-6 py-4 text-right font-bold text-gray-300">اسم الطالب</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">البريد الإلكتروني</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">المسار</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">الحضور</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">تاريخ التسجيل</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">الحالة</th>
+                <th className="px-6 py-4 text-center font-bold text-gray-300">الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-obsidian-850">
-              {filteredStudents.map((stu) => (
-                <tr key={stu.id} className="hover:bg-obsidian-900/40 transition-colors">
-                  <td className="py-3.5 font-mono text-gray-400 font-semibold">{stu.id}</td>
-                  <td className="py-3.5 font-bold text-white">{stu.name}</td>
-                  <td className="py-3.5 text-gray-300">
-                    <span className="px-2 py-0.5 rounded-md bg-obsidian-850 border border-obsidian-800 text-[10px] font-bold">
-                      {stu.track}
-                    </span>
-                  </td>
-                  <td className="py-3.5 text-gray-400 font-semibold">{stu.level}</td>
-                  <td className="py-3.5 text-gray-300">
-                    <span className="block font-bold">{stu.parent}</span>
-                    <span className="block text-[10px] text-gray-500 font-mono mt-0.5">{stu.parentPhone}</span>
-                  </td>
-                  <td className="py-3.5 text-center font-mono font-bold text-cyber-cyan">{stu.attendance}%</td>
-                  <td className="py-3.5 text-center">
-                    <span
-                      className={cn(
-                        "px-2 py-1 rounded-full text-[10px] font-bold border",
-                        stu.status === "Active" && "bg-emerald-glow/5 border-emerald-glow/20 text-emerald-glow",
-                        stu.status === "Suspended" && "bg-neon-red/5 border-neon-red/20 text-neon-red animate-pulse",
-                        stu.status === "Completed" && "bg-gray-500/5 border-gray-500/20 text-gray-400"
-                      )}
-                    >
-                      {stu.status}
-                    </span>
+            <tbody>
+              {filteredStudents.length > 0 ? (
+                filteredStudents.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="border-b border-obsidian-800/50 hover:bg-obsidian-900/30 transition-colors group"
+                  >
+                    <td className="px-6 py-4">
+                      <div>
+                        <p className="font-semibold text-white">{student.name}</p>
+                        <p className="text-xs text-gray-500 mt-1">{student.id}</p>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-gray-300 text-sm">{student.email}</td>
+                    <td className="px-6 py-4">
+                      <span className="px-2 py-1 rounded-full text-xs font-bold bg-cyber-cyan/10 text-cyber-cyan">
+                        {student.track}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 h-2 bg-obsidian-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-emerald-glow"
+                            style={{ width: `${student.attendanceRate}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-bold text-emerald-glow">
+                          {student.attendanceRate}%
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-gray-300 text-sm">{student.enrollmentDate}</td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-bold ${
+                          student.status === "نشط"
+                            ? "bg-emerald-glow/10 text-emerald-glow"
+                            : student.status === "معلق"
+                            ? "bg-laser-amber/10 text-laser-amber"
+                            : "bg-cyber-cyan/10 text-cyber-cyan"
+                        }`}
+                      >
+                        {student.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="p-2 hover:bg-cyber-cyan/10 rounded-lg transition-colors text-cyber-cyan">
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button className="p-2 hover:bg-neon-red/10 rounded-lg transition-colors text-neon-red">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    لا توجد نتائج مطابقة للبحث
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

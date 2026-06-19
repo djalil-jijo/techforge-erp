@@ -4,139 +4,277 @@ import React, { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StatCard } from "@/components/ui/StatCard";
 import { MOCK_TRANSACTIONS } from "@/lib/mock-data";
-import { DollarSign, Search, Filter, ArrowUpRight, TrendingUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  DollarSign,
+  Search,
+  Filter,
+  TrendingUp,
+  ArrowUpRight,
+  Clock,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
+import { cn, formatNumberAr, formatCurrency } from "@/lib/utils";
 
 export default function Payments() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("All");
+  const [filterType, setFilterType] = useState("الكل");
+  const [filterStatus, setFilterStatus] = useState("الكل");
 
-  const filteredTransactions = MOCK_TRANSACTIONS.filter((tx) => {
-    const matchesSearch = tx.studentName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          tx.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === "All" || tx.type === filterType;
-    return matchesSearch && matchesType;
+  let filteredTransactions = MOCK_TRANSACTIONS.filter((tx) => {
+    const matchesSearch =
+      tx.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tx.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = filterType === "الكل" || tx.type === filterType;
+    const matchesStatus = filterStatus === "الكل" || tx.status === filterStatus;
+    return matchesSearch && matchesType && matchesStatus;
   });
 
-  const totalCollected = MOCK_TRANSACTIONS.filter(t => t.status === "Completed").reduce((sum, t) => sum + t.amount, 0);
-  const pendingCollection = MOCK_TRANSACTIONS.filter(t => t.status === "Pending").reduce((sum, t) => sum + t.amount, 0);
+  const totalCollected = MOCK_TRANSACTIONS.filter(
+    (t) => t.status === "Completed"
+  ).reduce((sum, t) => sum + t.amount, 0);
+  const pendingCollection = MOCK_TRANSACTIONS.filter(
+    (t) => t.status === "Pending"
+  ).reduce((sum, t) => sum + t.amount, 0);
+  const failedTransactions = MOCK_TRANSACTIONS.filter(
+    (t) => t.status === "Failed"
+  ).length;
 
   return (
     <div className="space-y-8">
-      {/* Title */}
+      {/* ============= العنوان | Header ============= */}
       <div className="border-b border-obsidian-800 pb-6">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          Financial Payments Core
-          <span className="text-xs bg-emerald-glow/10 border border-emerald-glow/35 text-emerald-glow font-mono px-2 py-0.5 rounded-full font-bold">
-            Ledger Log
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-4xl font-extrabold text-white tracking-tight">
+            💳 النواة المالية
+          </h1>
+          <span className="text-xs bg-emerald-glow/10 border border-emerald-glow/35 text-emerald-glow font-mono px-3 py-1 rounded-full font-bold">
+            سجل المدفوعات
           </span>
-        </h1>
+        </div>
         <p className="text-gray-400 text-sm mt-1">
-          Monitor course subscriptions, FabLab engraving invoices, and outstanding dues.
+          تتبع مستحقات الطلاب وفواتير الدورات ومداخيل خدمات FabLab
         </p>
       </div>
 
-      {/* Metrics */}
+      {/* ============= بطاقات الإحصائيات | Metrics ============= */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <StatCard
-          title="Total Income Collected"
-          value={`${totalCollected.toLocaleString()} DZD`}
-          change="Completed payments"
+          title="إجمالي المبالغ المحصلة"
+          value={`${formatNumberAr(Math.floor(totalCollected / 1000))}K`}
+          change="معاملات مكتملة"
           changeType="increase"
           icon={TrendingUp}
           themeColor="emerald"
         />
         <StatCard
-          title="Pending Receivables"
-          value={`${pendingCollection.toLocaleString()} DZD`}
-          change="Pending clearance"
+          title="المبالغ المعلقة التحصيل"
+          value={`${formatNumberAr(Math.floor(pendingCollection / 1000))}K`}
+          change="بانتظار السداد"
           changeType="neutral"
-          icon={DollarSign}
+          icon={Clock}
           themeColor="amber"
         />
         <StatCard
-          title="Total Financial Operations"
-          value={MOCK_TRANSACTIONS.length}
-          change="Logged transactions"
-          changeType="neutral"
-          icon={ArrowUpRight}
-          themeColor="cyan"
+          title="المعاملات الفاشلة"
+          value={failedTransactions}
+          change="تحتاج متابعة"
+          changeType="decrease"
+          icon={AlertTriangle}
+          themeColor="red"
         />
       </div>
 
-      {/* List Ledger */}
-      <GlassCard className="space-y-6" hoverable={false}>
-        <div className="flex flex-col lg:flex-row gap-4 justify-between">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by student name or transaction ID..."
-              className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:border-emerald-glow"
-            />
+      {/* ============= فلاتر | Filters ============= */}
+      <GlassCard className="p-6">
+        <div className="flex flex-col lg:flex-row gap-4 items-end">
+          <div className="flex-1">
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              🔍 بحث
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="البحث باسم الطالب أو معرّف المعاملة..."
+                className="w-full bg-obsidian-900/50 border border-obsidian-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
+              />
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-obsidian-950 px-3 py-2 rounded-xl border border-obsidian-850">
-            <Filter className="w-3.5 h-3.5 text-gray-500" />
+          <div>
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              📋 نوع المعاملة
+            </label>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-transparent text-xs text-gray-300 focus:outline-none cursor-pointer pr-4 font-bold"
+              className="bg-obsidian-900/50 border border-obsidian-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
             >
-              <option value="All" className="bg-obsidian-950">All Types</option>
-              <option value="Subscription" className="bg-obsidian-950">Subscriptions</option>
-              <option value="Service" className="bg-obsidian-950">Services</option>
-              <option value="Workshop" className="bg-obsidian-950">Workshops</option>
+              <option value="الكل">الكل</option>
+              <option value="الرسوم الدراسية">الرسوم الدراسية</option>
+              <option value="خدمات FabLab">خدمات FabLab</option>
+              <option value="مشاريع">مشاريع</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-xs font-bold text-gray-400 mb-2 block">
+              ✅ الحالة
+            </label>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="bg-obsidian-900/50 border border-obsidian-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/30"
+            >
+              <option value="الكل">الكل</option>
+              <option value="Completed">مكتملة</option>
+              <option value="Pending">معلقة</option>
+              <option value="Failed">فاشلة</option>
             </select>
           </div>
         </div>
+      </GlassCard>
 
-        <div className="overflow-x-auto pt-2">
-          <table className="w-full text-left border-collapse text-xs">
+      {/* ============= جدول المعاملات | Transactions Table ============= */}
+      <GlassCard className="overflow-hidden" hoverable={false}>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-obsidian-800 text-gray-500 font-mono uppercase">
-                <th className="pb-3 font-semibold">Transaction ID</th>
-                <th className="pb-3 font-semibold">Student / Member</th>
-                <th className="pb-3 font-semibold">Service Type</th>
-                <th className="pb-3 font-semibold">Log Date</th>
-                <th className="pb-3 font-semibold text-right">Amount</th>
-                <th className="pb-3 font-semibold text-center">Status</th>
+              <tr className="bg-obsidian-900/50 border-b border-obsidian-800">
+                <th className="px-6 py-4 text-right font-bold text-gray-300">معرّف المعاملة</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">اسم الطالب</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">المبلغ</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">النوع</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">التاريخ</th>
+                <th className="px-6 py-4 text-right font-bold text-gray-300">الحالة</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-obsidian-850">
-              {filteredTransactions.map((tx) => (
-                <tr key={tx.id} className="hover:bg-obsidian-900/40 transition-colors">
-                  <td className="py-3.5 font-mono text-gray-400 font-semibold">{tx.id}</td>
-                  <td className="py-3.5 font-bold text-white">{tx.studentName}</td>
-                  <td className="py-3.5 text-gray-300">
-                    <span className="px-2 py-0.5 rounded-md bg-obsidian-850 border border-obsidian-800 text-[10px]">
-                      {tx.type}
-                    </span>
-                  </td>
-                  <td className="py-3.5 font-mono text-gray-400">{tx.date}</td>
-                  <td className="py-3.5 font-mono text-right font-extrabold text-cyber-cyan">
-                    {tx.amount.toLocaleString()} DZD
-                  </td>
-                  <td className="py-3.5 text-center">
-                    <span
-                      className={cn(
-                        "px-2 py-1 rounded-full text-[10px] font-bold border",
-                        tx.status === "Completed" && "bg-emerald-glow/5 border-emerald-glow/20 text-emerald-glow",
-                        tx.status === "Pending" && "bg-laser-amber/5 border-laser-amber/20 text-laser-amber",
-                        tx.status === "Refunded" && "bg-neon-red/5 border-neon-red/20 text-neon-red"
-                      )}
-                    >
-                      {tx.status}
-                    </span>
+            <tbody>
+              {filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction) => (
+                  <tr
+                    key={transaction.id}
+                    className="border-b border-obsidian-800/50 hover:bg-obsidian-900/30 transition-colors"
+                  >
+                    <td className="px-6 py-4">
+                      <p className="font-mono text-cyan text-sm font-semibold">
+                        {transaction.id}
+                      </p>
+                    </td>
+                    <td className="px-6 py-4">
+                      <p className="font-semibold text-white">{transaction.studentName}</p>
+                    </td>
+                    <td className="px-6 py-4">
+                      <p className="font-bold text-emerald-glow">
+                        {formatCurrency(transaction.amount)}
+                      </p>
+                    </td>
+                    <td className="px-6 py-4 text-gray-300">{transaction.type}</td>
+                    <td className="px-6 py-4 text-gray-300">{transaction.date}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        {transaction.status === "Completed" && (
+                          <>
+                            <CheckCircle2 className="w-4 h-4 text-emerald-glow" />
+                            <span className="text-xs font-bold text-emerald-glow">
+                              مكتملة
+                            </span>
+                          </>
+                        )}
+                        {transaction.status === "Pending" && (
+                          <>
+                            <Clock className="w-4 h-4 text-laser-amber" />
+                            <span className="text-xs font-bold text-laser-amber">
+                              معلقة
+                            </span>
+                          </>
+                        )}
+                        {transaction.status === "Failed" && (
+                          <>
+                            <AlertTriangle className="w-4 h-4 text-neon-red" />
+                            <span className="text-xs font-bold text-neon-red">
+                              فاشلة
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                    لا توجد معاملات مطابقة
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
       </GlassCard>
+
+      {/* ============= ملخص مالي | Financial Summary ============= */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <GlassCard className="p-6" hoverable={false}>
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            📊 ملخص المبالغ حسب النوع
+          </h3>
+          <div className="space-y-3">
+            {[
+              { label: "الرسوم الدراسية", color: "bg-cyber-cyan" },
+              { label: "خدمات FabLab", color: "bg-laser-amber" },
+              { label: "مشاريع", color: "bg-emerald-glow" },
+            ].map((type) => {
+              const total = MOCK_TRANSACTIONS.filter(
+                (t) => t.type === type.label && t.status === "Completed"
+              ).reduce((sum, t) => sum + t.amount, 0);
+              return (
+                <div key={type.label} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${type.color}`} />
+                    <span className="text-gray-300">{type.label}</span>
+                  </div>
+                  <span className="font-bold text-white">{formatCurrency(total)}</span>
+                </div>
+              );
+            })}
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6" hoverable={false}>
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            📈 إحصائيات عامة
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-obsidian-900/50">
+              <span className="text-gray-400">إجمالي المعاملات</span>
+              <span className="font-bold text-white">{MOCK_TRANSACTIONS.length}</span>
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-obsidian-900/50">
+              <span className="text-gray-400">نسبة النجاح</span>
+              <span className="font-bold text-emerald-glow">
+                {Math.round(
+                  (MOCK_TRANSACTIONS.filter(
+                    (t) => t.status === "Completed"
+                  ).length /
+                    MOCK_TRANSACTIONS.length) *
+                    100
+                )}
+                %
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-obsidian-900/50">
+              <span className="text-gray-400">المبالغ المحتجزة</span>
+              <span className="font-bold text-laser-amber">
+                {formatCurrency(pendingCollection)}
+              </span>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
     </div>
   );
 }
