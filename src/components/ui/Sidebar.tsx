@@ -6,45 +6,102 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
+  Wallet,
+  TrendingDown,
+  Users,
+  BookOpen,
+  Grid2X2,
+  Calendar,
   Boxes,
-  Cpu,
-  FolderGit2,
+  FileText,
+  Trophy,
+  Hammer,
   ChevronLeft,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
-  const menuItems = [
+  const adminMenuItems = [
     {
-      name: "Dashboard",
+      name: "لوحة التحكم",
       icon: LayoutDashboard,
       path: "/admin/dashboard",
       color: "hover:text-cyber-cyan hover:border-cyber-cyan/30",
       activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5",
     },
     {
-      name: "Inventory Vault",
-      icon: Boxes,
-      path: "/admin/inventory",
+      name: "المدفوعات المالية",
+      icon: Wallet,
+      path: "/admin/payments",
+      color: "hover:text-emerald-glow hover:border-emerald-glow/30",
+      activeColor: "text-emerald-glow border-emerald-glow/45 bg-emerald-glow/5",
+    },
+    {
+      name: "المصاريف",
+      icon: TrendingDown,
+      path: "/admin/expenses",
       color: "hover:text-laser-amber hover:border-laser-amber/30",
       activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5",
     },
     {
-      name: "Custody Hub",
-      icon: Cpu,
-      path: "/admin/inventory/assignments",
+      name: "الطلاب",
+      icon: Users,
+      path: "/admin/students",
       color: "hover:text-neon-purple hover:border-neon-purple/30",
       activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5",
     },
     {
-      name: "Projects Kanban",
-      icon: FolderGit2,
-      path: "/admin/projects",
+      name: "الأساتذة",
+      icon: BookOpen,
+      path: "/admin/teachers",
+      color: "hover:text-cyber-cyan hover:border-cyber-cyan/30",
+      activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5",
+    },
+    {
+      name: "الفوج والقاعات",
+      icon: Grid2X2,
+      path: "/admin/classes",
+      color: "hover:text-laser-amber hover:border-laser-amber/30",
+      activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5",
+    },
+    {
+      name: "الجدول الزمني",
+      icon: Calendar,
+      path: "/admin/timetable",
       color: "hover:text-emerald-glow hover:border-emerald-glow/30",
       activeColor: "text-emerald-glow border-emerald-glow/45 bg-emerald-glow/5",
+    },
+    {
+      name: "المستودع",
+      icon: Boxes,
+      path: "/admin/inventory",
+      color: "hover:text-neon-purple hover:border-neon-purple/30",
+      activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5",
+    },
+    {
+      name: "التقارير",
+      icon: FileText,
+      path: "/admin/reports",
+      color: "hover:text-neon-red hover:border-neon-red/30",
+      activeColor: "text-neon-red border-neon-red/45 bg-neon-red/5",
+    },
+    {
+      name: "المسابقات",
+      icon: Trophy,
+      path: "/admin/competitions",
+      color: "hover:text-laser-amber hover:border-laser-amber/30",
+      activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5",
+    },
+    {
+      name: "مشاريع FabLab",
+      icon: Hammer,
+      path: "/admin/projects",
+      color: "hover:text-cyber-cyan hover:border-cyber-cyan/30",
+      activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5",
     },
   ];
 
@@ -55,36 +112,32 @@ export function Sidebar() {
         collapsed ? "w-20" : "w-64"
       )}
     >
-      {/* Brand Header */}
+      {/* Logo Section */}
       <div className="h-20 border-b border-obsidian-800 flex items-center justify-between px-6">
         {!collapsed && (
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center pulse-cyan">
               <span className="text-cyber-cyan font-bold text-lg font-mono">T</span>
             </div>
             <div>
-              <span className="font-extrabold text-white font-sans tracking-wide">TECHFORGE</span>
-              <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none">ERP</span>
+              <span className="font-extrabold text-white font-sans tracking-wide text-sm">TECHFORGE</span>
+              <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">
+                ADMIN
+              </span>
             </div>
-          </div>
+          </Link>
         )}
         {collapsed && (
-          <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center mx-auto">
+          <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center mx-auto pulse-cyan">
             <span className="text-cyber-cyan font-bold text-lg font-mono">T</span>
           </div>
         )}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="p-1 rounded-lg border border-obsidian-700 bg-obsidian-850 hover:bg-obsidian-800 hover:text-cyber-cyan text-gray-400 transition-colors hidden md:block"
-        >
-          {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-        </button>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-        {menuItems.map((item) => {
-          const isActive = pathname === item.path;
+      {/* Navigation Menu */}
+      <nav className="flex-1 overflow-y-auto space-y-2 p-4">
+        {adminMenuItems.map((item) => {
+          const isActive = pathname === item.path || pathname.startsWith(item.path);
           const Icon = item.icon;
 
           return (
@@ -92,32 +145,43 @@ export function Sidebar() {
               key={item.path}
               href={item.path}
               className={cn(
-                "flex items-center gap-4 px-4 py-3 rounded-xl border border-transparent text-sm font-medium text-gray-400 transition-all duration-200",
-                item.color,
-                isActive ? item.activeColor : "hover:bg-obsidian-850"
+                "flex items-center gap-3 px-4 py-3 rounded-lg border transition-all duration-300",
+                isActive
+                  ? item.activeColor
+                  : `text-gray-400 border-transparent ${item.color}`
               )}
+              title={collapsed ? item.name : undefined}
             >
-              <Icon className={cn("w-5 h-5 flex-shrink-0", isActive && "scale-110")} />
-              {!collapsed && <span>{item.name}</span>}
+              <Icon className="w-5 h-5 flex-shrink-0" />
+              {!collapsed && <span className="font-medium text-sm">{item.name}</span>}
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer / User Profile */}
-      <div className="p-4 border-t border-obsidian-800">
-        <div className={cn("flex items-center gap-3", collapsed ? "justify-center" : "px-2")}>
-          <div className="w-10 h-10 rounded-full border border-obsidian-800 bg-gradient-to-tr from-obsidian-900 to-obsidian-850 flex items-center justify-center font-bold text-white relative">
-            JD
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-glow border-2 border-obsidian-950 rounded-full" />
-          </div>
-          {!collapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white truncate">Jamel Djaoued</p>
-              <p className="text-xs text-gray-500 truncate">Super Admin</p>
-            </div>
+      {/* Footer */}
+      <div className="border-t border-obsidian-800 p-4">
+        <button
+          className={cn(
+            "w-full flex items-center gap-3 px-4 py-3 rounded-lg border",
+            "text-neon-red border-neon-red/30 hover:bg-neon-red/5 transition-all"
           )}
-        </div>
+        >
+          <LogOut className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span className="font-medium text-sm">تسجيل الخروج</span>}
+        </button>
+
+        {/* Toggle Collapse */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="w-full mt-2 flex items-center justify-center py-2 text-gray-500 hover:text-cyber-cyan transition-colors"
+        >
+          {collapsed ? (
+            <ChevronRight className="w-5 h-5" />
+          ) : (
+            <ChevronLeft className="w-5 h-5" />
+          )}
+        </button>
       </div>
     </aside>
   );
