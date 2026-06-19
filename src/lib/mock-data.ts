@@ -1,273 +1,372 @@
-export interface RevenueData {
-  month: string;
-  amount: number;
+// 📊 البيانات التجريبية الكاملة | Complete Mock Data
+// هذا الملف يحتوي على جميع البيانات الوهمية للنظام
+
+export interface Student {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  track: 'الروبوتيك' | 'الإلكترونيات' | 'البرمجة';
+  enrollmentDate: string;
+  attendanceRate: number;
+  status: 'نشط' | 'معلق' | 'متخرج';
 }
 
-export interface TrackData {
+export interface Equipment {
+  id: string;
   name: string;
-  value: number;
-  color: string;
+  category: string;
+  quantity: number;
+  available: number;
+  status: 'جاهز' | 'في الصيانة' | 'معطل';
+  location: string;
+  condition: 'ممتاز' | 'جيد' | 'متوسط' | 'ضعيف';
+}
+
+export interface Assignment {
+  id: string;
+  itemId: string;
+  itemName: string;
+  borrowerName: string;
+  role: 'Student' | 'Instructor';
+  borrowDate: string;
+  expectedReturnDate: string;
+  status: 'active' | 'overdue' | 'returned';
 }
 
 export interface Transaction {
   id: string;
   studentName: string;
-  type: "Subscription" | "Service" | "Workshop";
   amount: number;
+  type: 'الرسوم الدراسية' | 'خدمات FabLab' | 'مشاريع';
   date: string;
-  status: "Completed" | "Pending" | "Refunded";
+  status: 'Completed' | 'Pending' | 'Failed';
 }
 
-export interface InventoryItem {
-  id: string;
-  name: string;
-  category: "Robotics" | "Electronics" | "3D Printing" | "CNC / Hardware" | "Tools";
-  totalQty: number;
-  availableQty: number;
-  status: "available" | "limited" | "maintenance" | "out_of_stock";
-  location: string;
-  qrCode: string;
-}
-
-export interface Assignment {
-  id: string;
-  itemName: string;
-  itemId: string;
-  borrowerName: string;
-  role: "Student" | "Instructor";
-  borrowDate: string;
-  expectedReturnDate: string;
-  status: "active" | "overdue" | "returned";
-}
-
-export interface ProjectCard {
-  id: string;
-  title: string;
-  description: string;
-  track: "Robotics" | "IoT" | "CNC" | "AI / Software" | "Hardware";
-  team: string[];
-  status: "idea" | "prototyping" | "testing" | "completed";
-  progress: number;
-}
-
-export interface LiveDevice {
-  id: string;
-  name: string;
-  status: "idle" | "printing" | "cutting" | "offline";
-  ping: number;
-  load: number;
-}
-
-// ----------------------------------------------------
-// Mock Data Objects
-// ----------------------------------------------------
-
-export const MOCK_REVENUE: RevenueData[] = [
-  { month: "Jan", amount: 145000 },
-  { month: "Feb", amount: 182000 },
-  { month: "Mar", amount: 210000 },
-  { month: "Apr", amount: 198000 },
-  { month: "May", amount: 265000 },
-  { month: "Jun", amount: 320000 },
-];
-
-export const MOCK_TRACKS: TrackData[] = [
-  { name: "Robotics", value: 45, color: "#00e5ff" }, // cyber-cyan
-  { name: "Electronics & IoT", value: 35, color: "#d500f9" }, // neon-purple
-  { name: "3D & CNC Printing", value: 25, color: "#ff9100" }, // laser-amber
-];
-
-export const MOCK_TRANSACTIONS: Transaction[] = [
+// ============= الطلاب | STUDENTS =============
+export const MOCK_STUDENTS: Student[] = [
   {
-    id: "TX-9021",
-    studentName: "Amine Bouaziz",
-    type: "Subscription",
-    amount: 8500,
-    date: "2026-06-18",
-    status: "Completed",
+    id: 'STU-001',
+    name: 'محمد علي بن عمارة',
+    email: 'mohammad.benamar@techforge.dz',
+    phone: '0661234567',
+    track: 'الروبوتيك',
+    enrollmentDate: '2025-09-15',
+    attendanceRate: 92,
+    status: 'نشط',
   },
   {
-    id: "TX-9022",
-    studentName: "Yasmine Haddad",
-    type: "Service",
-    amount: 12500,
-    date: "2026-06-18",
-    status: "Completed",
+    id: 'STU-002',
+    name: 'فاطمة الزهراء مرابط',
+    email: 'fatima.mrabat@techforge.dz',
+    phone: '0671234568',
+    track: 'البرمجة',
+    enrollmentDate: '2025-09-16',
+    attendanceRate: 88,
+    status: 'نشط',
   },
   {
-    id: "TX-9023",
-    studentName: "Karim Benamar",
-    type: "Workshop",
-    amount: 4000,
-    date: "2026-06-17",
-    status: "Pending",
+    id: 'STU-003',
+    name: 'عمر صالح قاسمي',
+    email: 'omar.gasmi@techforge.dz',
+    phone: '0681234569',
+    track: 'الإلكترونيات',
+    enrollmentDate: '2025-09-17',
+    attendanceRate: 95,
+    status: 'نشط',
   },
   {
-    id: "TX-9024",
-    studentName: "Sara Merabet",
-    type: "Subscription",
-    amount: 8500,
-    date: "2026-06-15",
-    status: "Completed",
+    id: 'STU-004',
+    name: 'ليلى خديجة براهيمي',
+    email: 'leila.brahimi@techforge.dz',
+    phone: '0691234570',
+    track: 'الروبوتيك',
+    enrollmentDate: '2025-09-18',
+    attendanceRate: 85,
+    status: 'نشط',
   },
   {
-    id: "TX-9025",
-    studentName: "Mohamed Belkacem",
-    type: "Service",
-    amount: 25000,
-    date: "2026-06-14",
-    status: "Completed",
+    id: 'STU-005',
+    name: 'حسن محمود بلحج',
+    email: 'hassan.belhadj@techforge.dz',
+    phone: '0701234571',
+    track: 'البرمجة',
+    enrollmentDate: '2025-09-19',
+    attendanceRate: 78,
+    status: 'معلق',
+  },
+  {
+    id: 'STU-006',
+    name: 'نور الدين يوسفي',
+    email: 'nouraldin.yousefi@techforge.dz',
+    phone: '0711234572',
+    track: 'الإلكترونيات',
+    enrollmentDate: '2025-09-20',
+    attendanceRate: 90,
+    status: 'نشط',
   },
 ];
 
-export const MOCK_INVENTORY: InventoryItem[] = [
+// ============= المعدات والأدوات | EQUIPMENT =============
+export const MOCK_INVENTORY: Equipment[] = [
   {
-    id: "INV-ARD-01",
-    name: "Arduino Uno R3 Starter Kit",
-    category: "Electronics",
-    totalQty: 25,
-    availableQty: 18,
-    status: "available",
-    location: "Cabinet A-1",
-    qrCode: "QR-ARD-01",
+    id: 'EQ-001',
+    name: 'Arduino Mega 2560',
+    category: 'المتحكمات الدقيقة',
+    quantity: 15,
+    available: 8,
+    status: 'جاهز',
+    location: 'الرف A1',
+    condition: 'ممتاز',
   },
   {
-    id: "INV-RPY-04",
-    name: "Raspberry Pi 4 Model B (4GB)",
-    category: "Robotics",
-    totalQty: 12,
-    availableQty: 4,
-    status: "limited",
-    location: "Cabinet B-3",
-    qrCode: "QR-RPY-04",
+    id: 'EQ-002',
+    name: 'Raspberry Pi 4 (8GB)',
+    category: 'الحواسيب اللوحية',
+    quantity: 10,
+    available: 6,
+    status: 'جاهز',
+    location: 'الرف A2',
+    condition: 'ممتاز',
   },
   {
-    id: "INV-3DP-CR",
-    name: "Creality Ender-3 V3 3D Printer",
-    category: "3D Printing",
-    totalQty: 5,
-    availableQty: 3,
-    status: "available",
-    location: "Zone-3D-A",
-    qrCode: "QR-3DP-CR",
+    id: 'EQ-003',
+    name: 'طابعة 3D (Creality Ender 3)',
+    category: 'الطباعة ثلاثية الأبعاد',
+    quantity: 4,
+    available: 2,
+    status: 'جاهز',
+    location: 'الورشة الرئيسية',
+    condition: 'جيد',
   },
   {
-    id: "INV-CNC-30",
-    name: "CNC 3018 Pro Engraving Machine",
-    category: "CNC / Hardware",
-    totalQty: 2,
-    availableQty: 1,
-    status: "maintenance",
-    location: "Zone-CNC",
-    qrCode: "QR-CNC-30",
+    id: 'EQ-004',
+    name: 'خيط PLA ملون (Filament)',
+    category: 'مواد الطباعة',
+    quantity: 50,
+    available: 35,
+    status: 'جاهز',
+    location: 'الخزانة B1',
+    condition: 'ممتاز',
   },
   {
-    id: "INV-SOL-TS",
-    name: "TS100 Smart Soldering Iron",
-    category: "Tools",
-    totalQty: 15,
-    availableQty: 12,
-    status: "available",
-    location: "Workbench 2",
-    qrCode: "QR-SOL-TS",
+    id: 'EQ-005',
+    name: 'آلة CNC الحفر',
+    category: 'المعدات الثقيلة',
+    quantity: 2,
+    available: 1,
+    status: 'في الصيانة',
+    location: 'ورشة CNC',
+    condition: 'متوسط',
   },
   {
-    id: "INV-LID-16",
-    name: "RPLIDAR A2M8 360 Lidar Scanner",
-    category: "Robotics",
-    totalQty: 4,
-    availableQty: 0,
-    status: "out_of_stock",
-    location: "Cabinet A-2",
-    qrCode: "QR-LID-16",
+    id: 'EQ-006',
+    name: 'حقيبة الروبوت التعليمي',
+    category: 'مجموعات التعليم',
+    quantity: 8,
+    available: 5,
+    status: 'جاهز',
+    location: 'الرف C1',
+    condition: 'جيد',
+  },
+  {
+    id: 'EQ-007',
+    name: 'لحام إلكتروني (Soldering Station)',
+    category: 'أدوات اللحام',
+    quantity: 6,
+    available: 4,
+    status: 'جاهز',
+    location: 'مقاعد الإلكترونيات',
+    condition: 'ممتاز',
+  },
+  {
+    id: 'EQ-008',
+    name: 'مجموعة مستشعرات (Sensors Kit)',
+    category: 'المستشعرات',
+    quantity: 20,
+    available: 12,
+    status: 'جاهز',
+    location: 'الرف D2',
+    condition: 'ممتاز',
+  },
+  {
+    id: 'EQ-009',
+    name: 'محرك كهربائي (Motor Kit)',
+    category: 'المحركات',
+    quantity: 25,
+    available: 18,
+    status: 'جاهز',
+    location: 'الرف D3',
+    condition: 'جيد',
+  },
+  {
+    id: 'EQ-010',
+    name: 'لوحة الدوائر الكهربائية (Breadboard)',
+    category: 'لوحات التجميع',
+    quantity: 30,
+    available: 22,
+    status: 'جاهز',
+    location: 'الرف E1',
+    condition: 'ممتاز',
   },
 ];
 
+// ============= نقل العهدة | ASSIGNMENTS =============
 export const MOCK_ASSIGNMENTS: Assignment[] = [
   {
-    id: "ASG-701",
-    itemName: "Raspberry Pi 4 Model B",
-    itemId: "INV-RPY-04",
-    borrowerName: "Amine Bouaziz",
-    role: "Student",
-    borrowDate: "2026-06-10",
-    expectedReturnDate: "2026-06-24",
-    status: "active",
+    id: 'ASG-001',
+    itemId: 'EQ-001',
+    itemName: 'Arduino Mega 2560',
+    borrowerName: 'محمد علي بن عمارة',
+    role: 'Student',
+    borrowDate: '2026-06-15',
+    expectedReturnDate: '2026-06-22',
+    status: 'active',
   },
   {
-    id: "ASG-702",
-    itemName: "TS100 Smart Soldering Iron",
-    itemId: "INV-SOL-TS",
-    borrowerName: "Yasmine Haddad",
-    role: "Student",
-    borrowDate: "2026-06-15",
-    expectedReturnDate: "2026-06-20",
-    status: "active",
+    id: 'ASG-002',
+    itemId: 'EQ-002',
+    itemName: 'Raspberry Pi 4 (8GB)',
+    borrowerName: 'الأستاذ أحمد محمود',
+    role: 'Instructor',
+    borrowDate: '2026-06-10',
+    expectedReturnDate: '2026-06-25',
+    status: 'active',
   },
   {
-    id: "ASG-703",
-    itemName: "Arduino Uno R3 Starter Kit",
-    itemId: "INV-ARD-01",
-    borrowerName: "Anis Merah",
-    role: "Student",
-    borrowDate: "2026-06-01",
-    expectedReturnDate: "2026-06-15",
-    status: "overdue",
+    id: 'ASG-003',
+    itemId: 'EQ-006',
+    itemName: 'حقيبة الروبوت التعليمي',
+    borrowerName: 'فاطمة الزهراء مرابط',
+    role: 'Student',
+    borrowDate: '2026-06-12',
+    expectedReturnDate: '2026-06-19',
+    status: 'overdue',
   },
   {
-    id: "ASG-704",
-    itemName: "CNC 3018 Pro Engraving Machine",
-    itemId: "INV-CNC-30",
-    borrowerName: "Prof. Lamine Touati",
-    role: "Instructor",
-    borrowDate: "2026-06-05",
-    expectedReturnDate: "2026-06-12",
-    status: "returned",
+    id: 'ASG-004',
+    itemId: 'EQ-007',
+    itemName: 'لحام إلكتروني',
+    borrowerName: 'الأستاذ خالد البرقي',
+    role: 'Instructor',
+    borrowDate: '2026-06-01',
+    expectedReturnDate: '2026-06-18',
+    status: 'returned',
+  },
+  {
+    id: 'ASG-005',
+    itemId: 'EQ-003',
+    itemName: 'طابعة 3D (Creality Ender 3)',
+    borrowerName: 'عمر صالح قاسمي',
+    role: 'Student',
+    borrowDate: '2026-06-14',
+    expectedReturnDate: '2026-06-28',
+    status: 'active',
   },
 ];
 
-export const MOCK_PROJECTS: ProjectCard[] = [
+// ============= المعاملات المالية | TRANSACTIONS =============
+export const MOCK_TRANSACTIONS: Transaction[] = [
   {
-    id: "PRJ-101",
-    title: "Algerian Smart Agri-Drone",
-    description: "Multi-spectral imaging drone for date palm monitoring in Biskra.",
-    track: "Robotics",
-    team: ["Amine Bouaziz", "Sara Merabet", "Anis Merah"],
-    status: "prototyping",
-    progress: 65,
+    id: 'TRX-001',
+    studentName: 'محمد علي بن عمارة',
+    amount: 15000,
+    type: 'الرسوم الدراسية',
+    date: '2026-06-01',
+    status: 'Completed',
   },
   {
-    id: "PRJ-102",
-    title: "Autonomous Chess Robot",
-    description: "SCARA arm coupled with computer vision and stockfish to play chess.",
-    track: "AI / Software",
-    team: ["Yasmine Haddad", "Karim Benamar"],
-    status: "testing",
-    progress: 85,
+    id: 'TRX-002',
+    studentName: 'فاطمة الزهراء مرابط',
+    amount: 8500,
+    type: 'خدمات FabLab',
+    date: '2026-06-05',
+    status: 'Completed',
   },
   {
-    id: "PRJ-103",
-    title: "CNC PCB Miller",
-    description: "Modification of CNC 3018 for dry milling of high-density circuits.",
-    track: "CNC",
-    team: ["Meriem Bella", "Mohamed Belkacem"],
-    status: "idea",
-    progress: 10,
+    id: 'TRX-003',
+    studentName: 'عمر صالح قاسمي',
+    amount: 15000,
+    type: 'الرسوم الدراسية',
+    date: '2026-06-08',
+    status: 'Pending',
   },
   {
-    id: "PRJ-104",
-    title: "IoT Smart Home Hub",
-    description: "Custom ESP32 board integrating LoraWAN sensors and HomeAssistant.",
-    track: "IoT",
-    team: ["Fatma Zohra", "Lamine Touati"],
-    status: "completed",
-    progress: 100,
+    id: 'TRX-004',
+    studentName: 'ليلى خديجة براهيمي',
+    amount: 12000,
+    type: 'مشاريع',
+    date: '2026-06-10',
+    status: 'Completed',
+  },
+  {
+    id: 'TRX-005',
+    studentName: 'حسن محمود بلحج',
+    amount: 15000,
+    type: 'الرسوم الدراسية',
+    date: '2026-06-12',
+    status: 'Pending',
+  },
+  {
+    id: 'TRX-006',
+    studentName: 'نور الدين يوسفي',
+    amount: 5500,
+    type: 'خدمات FabLab',
+    date: '2026-06-15',
+    status: 'Completed',
+  },
+  {
+    id: 'TRX-007',
+    studentName: 'محمد علي بن عمارة',
+    amount: 3200,
+    type: 'خدمات FabLab',
+    date: '2026-06-16',
+    status: 'Completed',
+  },
+  {
+    id: 'TRX-008',
+    studentName: 'فاطمة الزهراء مرابط',
+    amount: 15000,
+    type: 'الرسوم الدراسية',
+    date: '2026-06-18',
+    status: 'Pending',
   },
 ];
 
-export const MOCK_LIVE_DEVICES: LiveDevice[] = [
-  { id: "DEV-1", name: "Creality Ender 3D #1", status: "printing", ping: 12, load: 88 },
-  { id: "DEV-2", name: "Creality Ender 3D #2", status: "idle", ping: 15, load: 0 },
-  { id: "DEV-3", name: "CNC 3018 Router", status: "offline", ping: 0, load: 0 },
-  { id: "DEV-4", name: "Laser Cutter 40W", status: "cutting", ping: 8, load: 92 },
+// ============= الأساتذة | TEACHERS =============
+export const MOCK_TEACHERS = [
+  {
+    id: 'TCH-001',
+    name: 'الأستاذ أحمد محمود',
+    specialization: 'الروبوتيك',
+    email: 'ahmad.mahmoud@techforge.dz',
+    phone: '0551234567',
+    status: 'نشط',
+  },
+  {
+    id: 'TCH-002',
+    name: 'الأستاذة سارة بن ناصر',
+    specialization: 'البرمجة',
+    email: 'sara.benasser@techforge.dz',
+    phone: '0561234568',
+    status: 'نشط',
+  },
+  {
+    id: 'TCH-003',
+    name: 'الأستاذ خالد البرقي',
+    specialization: 'الإلكترونيات',
+    email: 'khaled.bourqi@techforge.dz',
+    phone: '0571234569',
+    status: 'نشط',
+  },
 ];
+
+// ============= إحصائيات اللوحة | DASHBOARD STATISTICS =============
+export const DASHBOARD_STATS = {
+  totalStudents: MOCK_STUDENTS.length,
+  activeStudents: MOCK_STUDENTS.filter(s => s.status === 'نشط').length,
+  totalEquipment: MOCK_INVENTORY.reduce((sum, e) => sum + e.quantity, 0),
+  availableEquipment: MOCK_INVENTORY.reduce((sum, e) => sum + e.available, 0),
+  totalRevenue: MOCK_TRANSACTIONS.filter(t => t.status === 'Completed').reduce((sum, t) => sum + t.amount, 0),
+  pendingPayments: MOCK_TRANSACTIONS.filter(t => t.status === 'Pending').reduce((sum, t) => sum + t.amount, 0),
+};
