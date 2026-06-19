@@ -2,111 +2,200 @@
 
 import React from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import {
+  LayoutDashboard,
+  Cpu,
+  CheckSquare,
+  Award,
+  FileText,
+  Calendar,
+  TrendingUp,
+  AlertCircle,
+} from "lucide-react";
 import { StatCard } from "@/components/ui/StatCard";
-import { Calendar, Users, Cpu, FileWarning, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+const CURRENT_SCHEDULE = [
+  {
+    time: "09:00 - 10:30",
+    subject: "ورشة الروبوتيك المتقدمة",
+    instructor: "الأستاذ أحمد محمود",
+    room: "المختبر A",
+    color: "text-cyber-cyan",
+  },
+  {
+    time: "11:00 - 12:30",
+    subject: "برمجة Python المتقدمة",
+    instructor: "الأستاذة سارة بن ناصر",
+    room: "القاعة B2",
+    color: "text-laser-amber",
+  },
+  {
+    time: "14:00 - 15:30",
+    subject: "مشروع FabLab",
+    instructor: "الأستاذ خالد البرقي",
+    room: "ورشة FabLab",
+    color: "text-emerald-glow",
+  },
+];
+
+const ALERTS = [
+  {
+    type: "تنبيه",
+    message: "الحضور متأخر - الرجاء الالتزام بالمواعيد",
+    severity: "amber",
+    icon: AlertCircle,
+  },
+  {
+    type: "إشعار",
+    message: "أحدث مهارة قيد التطور - الاستمرار في الممارسة",
+    severity: "cyan",
+    icon: TrendingUp,
+  },
+];
 
 export default function TeacherDashboard() {
-  const schedule = [
-    { time: "09:00 - 11:00", room: "Robotics Deck A", subject: "Linear Actuators Lab", students: 15, status: "completed" },
-    { time: "16:00 - 18:00", room: "Central FabLab", subject: "CNC PCB Engraving", students: 12, status: "pending" },
-  ];
-
   return (
     <div className="space-y-8">
-      {/* Title */}
+      {/* ============= العنوان | Header ============= */}
       <div className="border-b border-obsidian-800 pb-6">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          Daily Overview
-          <span className="text-xs bg-cyber-cyan/10 border border-cyber-cyan/35 text-cyber-cyan font-mono px-2 py-0.5 rounded-full font-bold">
-            Staff Deck
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-4xl font-extrabold text-white tracking-tight">
+            👋 مرحباً، الأستاذ أحمد
+          </h1>
+          <span className="text-xs bg-cyber-cyan/10 border border-cyber-cyan/35 text-cyber-cyan font-mono px-3 py-1 rounded-full font-bold pulse-cyan">
+            الحضور المباشر
           </span>
-        </h1>
+        </div>
         <p className="text-gray-400 text-sm mt-1">
-          Monitor scheduled sessions, check student capacities, and register lesson logs.
+          جدول الحصص الفوري والإشعارات الإدارية الطارئة
         </p>
       </div>
 
-      {/* Stats */}
+      {/* ============= بطاقات الإحصائيات | Stats ============= */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <StatCard
-          title="Scheduled Hours"
-          value="4 Hours"
-          change="Today's load"
+          title="الطلاب المسجلون"
+          value="45"
+          change="في الفوج الحالي"
           changeType="neutral"
-          icon={Calendar}
+          icon={CheckSquare}
           themeColor="cyan"
         />
         <StatCard
-          title="Total Student Load"
-          value="27 Students"
-          change="Allocated in slots"
+          title="الحصص اليومية"
+          value="3"
+          change="حصة متبقية اليوم"
           changeType="neutral"
-          icon={Users}
-          themeColor="emerald"
+          icon={Calendar}
+          themeColor="amber"
         />
         <StatCard
-          title="Borrowed Hardware Items"
-          value="4 Models"
-          change="Checked out of Vault"
-          changeType="neutral"
-          icon={Cpu}
-          themeColor="purple"
+          title="متوسط التقييم"
+          value="85%"
+          change="أداء الطلاب"
+          changeType="increase"
+          icon={Award}
+          themeColor="emerald"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Schedule Roster */}
-        <GlassCard className="lg:col-span-2 space-y-6" hoverable={false}>
-          <h3 className="text-base font-bold text-white">Today's Class Timetable</h3>
-          <div className="space-y-4 text-xs">
-            {schedule.map((item, idx) => (
-              <div 
-                key={idx} 
-                className="p-4 rounded-xl bg-obsidian-900/50 border border-obsidian-850 hover:border-obsidian-800 transition-all flex justify-between items-center"
-              >
-                <div className="space-y-1">
-                  <span className="font-mono text-[10px] text-gray-500 block uppercase">{item.time} • {item.room}</span>
-                  <h4 className="font-bold text-white text-sm">{item.subject}</h4>
-                  <p className="text-gray-400 font-semibold">{item.students} Students registered</p>
-                </div>
-
-                <span
-                  className={cn(
-                    "px-2 py-1 rounded-full text-[10px] font-bold border capitalize",
-                    item.status === "completed" && "bg-emerald-glow/5 border-emerald-glow/20 text-emerald-glow",
-                    item.status === "pending" && "bg-laser-amber/5 border-laser-amber/20 text-laser-amber"
-                  )}
-                >
-                  {item.status}
-                </span>
+      {/* ============= جدول الحصص | Daily Schedule ============= */}
+      <GlassCard className="p-8" hoverable={false}>
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+          📅 جدول اليوم
+        </h2>
+        <div className="space-y-4">
+          {CURRENT_SCHEDULE.map((session, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-4 p-4 rounded-lg bg-obsidian-900/50 border border-obsidian-800/50 hover:border-obsidian-700 transition-all group"
+            >
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${session.color} text-xl font-bold`}>
+                {idx + 1}
               </div>
-            ))}
-          </div>
-        </GlassCard>
+              <div className="flex-1">
+                <p className="font-semibold text-white">{session.subject}</p>
+                <p className="text-sm text-gray-400 mt-1">
+                  {session.instructor} • {session.room}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="font-mono text-sm font-bold text-gray-300">
+                  {session.time}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
 
-        {/* Admin alerts */}
-        <GlassCard glowColor="cyan" hoverable={false}>
-          <div className="flex items-center gap-2 mb-4">
-            <FileWarning className="w-5 h-5 text-cyber-cyan" />
-            <h3 className="text-base font-bold text-white">Staff Alerts</h3>
-          </div>
-          <div className="space-y-3 text-xs">
-            <div className="p-3 rounded-xl bg-obsidian-900/50 border border-obsidian-850">
-              <span className="text-[10px] font-mono text-laser-amber font-bold block mb-1">HARDWARE NOTICE</span>
-              <p className="text-gray-400 leading-relaxed font-semibold">
-                CNC PCB engraving router has scheduled maintenance slots between 13:00 - 15:00.
-              </p>
+      {/* ============= الأدوات والعهدة | My Tools ============= */}
+      <GlassCard className="p-8" hoverable={false}>
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+          🔧 الأدوات تحت مسؤوليتي
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { name: "مجموعة Arduino Mega", qty: 5, status: "جاهز", color: "emerald" },
+            { name: "حقيبة الروبوتات التعليمية", qty: 2, status: "جاهز", color: "emerald" },
+            { name: "لحام إلكتروني", qty: 3, status: "جاهز", color: "emerald" },
+            { name: "مستشعرات IoT", qty: 12, status: "جاهز", color: "emerald" },
+          ].map((tool, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between p-4 rounded-lg bg-obsidian-900/50 border border-obsidian-800/50"
+            >
+              <div>
+                <p className="font-semibold text-white">{tool.name}</p>
+                <p className="text-xs text-gray-400 mt-1">الكمية: {tool.qty}</p>
+              </div>
+              <div className="w-2 h-2 rounded-full bg-emerald-glow animate-pulse" />
             </div>
-            <div className="p-3 rounded-xl bg-obsidian-900/50 border border-obsidian-850">
-              <span className="text-[10px] font-mono text-cyber-cyan font-bold block mb-1">REGISTRY PROTOCOL</span>
-              <p className="text-gray-400 leading-relaxed font-semibold">
-                Submit lesson reports within 24 hours of session end for automatic student progress logs.
-              </p>
-            </div>
-          </div>
-        </GlassCard>
-      </div>
+          ))}
+        </div>
+      </GlassCard>
+
+      {/* ============= الإشعارات | Alerts ============= */}
+      <GlassCard className="p-8" hoverable={false}>
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+          🔔 الإشعارات الفورية
+        </h2>
+        <div className="space-y-3">
+          {ALERTS.map((alert, idx) => {
+            const IconComponent = alert.icon;
+            return (
+              <div
+                key={idx}
+                className={`flex items-start gap-3 p-4 rounded-lg border ${
+                  alert.severity === "amber"
+                    ? "bg-laser-amber/5 border-laser-amber/30"
+                    : "bg-cyber-cyan/5 border-cyber-cyan/30"
+                }`}
+              >
+                <IconComponent
+                  className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                    alert.severity === "amber"
+                      ? "text-laser-amber"
+                      : "text-cyber-cyan"
+                  }`}
+                />
+                <div>
+                  <p
+                    className={`font-semibold ${
+                      alert.severity === "amber"
+                        ? "text-laser-amber"
+                        : "text-cyber-cyan"
+                    }`}
+                  >
+                    {alert.type}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-1">{alert.message}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </GlassCard>
     </div>
   );
 }
