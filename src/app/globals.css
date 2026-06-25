@@ -1,11 +1,10 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
+@import "tailwindcss";
+
+
 /* ============= الألوان المخصصة | Custom Colors ============= */
-:root {
+@theme {
   --color-obsidian-950: #0f0f1e;
   --color-obsidian-900: #1a1a2e;
   --color-obsidian-800: #252540;
@@ -29,7 +28,12 @@ html[lang="en"] body {
   direction: ltr;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -56,37 +60,49 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ============= التأثيرات المتحركة | Animations ============= */
 @keyframes pulse-cyan {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 8px #00d9ff, 0 0 16px #00d9ff80;
   }
+
   50% {
     box-shadow: 0 0 16px #00d9ff, 0 0 32px #00d9ff80;
   }
 }
 
 @keyframes pulse-amber {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 8px #ffb800, 0 0 16px #ffb80080;
   }
+
   50% {
     box-shadow: 0 0 16px #ffb800, 0 0 32px #ffb80080;
   }
 }
 
 @keyframes pulse-emerald {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 8px #00ff88, 0 0 16px #00ff8880;
   }
+
   50% {
     box-shadow: 0 0 16px #00ff88, 0 0 32px #00ff8880;
   }
 }
 
 @keyframes glow-border {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: currentColor;
     box-shadow: 0 0 0 0 currentColor;
   }
+
   50% {
     box-shadow: 0 0 16px 4px currentColor;
   }
@@ -142,13 +158,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============= المدخلات | Inputs ============= */
-input, textarea, select {
+input,
+textarea,
+select {
   @apply bg-obsidian-900/50 border border-obsidian-800 rounded-lg px-4 py-2.5;
   @apply text-white placeholder-gray-500 transition-all duration-300;
   @apply focus:outline-none focus:border-cyber-cyan focus:ring-1 focus:ring-cyber-cyan/50;
 }
 
-input:disabled, textarea:disabled, select:disabled {
+input:disabled,
+textarea:disabled,
+select:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
 

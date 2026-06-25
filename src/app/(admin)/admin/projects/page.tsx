@@ -10,13 +10,25 @@ export default function ProjectsKanban() {
   const [selectedTrack, setSelectedTrack] = useState<string>("All");
 
   const columns: { id: ProjectCard["status"]; title: string; color: string }[] = [
-    { id: "idea", title: "Idea Phase", color: "border-gray-500 text-gray-400 bg-gray-500/5" },
-    { id: "prototyping", title: "Prototyping", color: "border-cyber-cyan text-cyber-cyan bg-cyber-cyan/5" },
-    { id: "testing", title: "Testing & QA", color: "border-laser-amber text-laser-amber bg-laser-amber/5" },
-    { id: "completed", title: "Completed", color: "border-emerald-glow text-emerald-glow bg-emerald-glow/5" },
+    { id: "idea", title: "مرحلة الفكرة", color: "border-gray-500 text-gray-400 bg-gray-500/5" },
+    { id: "prototyping", title: "بناء النموذج الأولي", color: "border-cyber-cyan text-cyber-cyan bg-cyber-cyan/5" },
+    { id: "testing", title: "التجارب وضمان الجودة", color: "border-laser-amber text-laser-amber bg-laser-amber/5" },
+    { id: "completed", title: "مشاريع مكتملة", color: "border-emerald-glow text-emerald-glow bg-emerald-glow/5" },
   ];
 
-  const tracks = ["All", "Robotics", "IoT", "CNC", "AI / Software", "Hardware"];
+  const tracks = [
+    { id: "All", label: "جميع المسارات" },
+    { id: "Robotics", label: "الروبوتات" },
+    { id: "IoT", label: "إنترنت الأشياء" },
+    { id: "CNC", label: "التحكم الرقمي (CNC)" },
+    { id: "AI / Software", label: "الذكاء الاصطناعي والبرمجيات" },
+    { id: "Hardware", label: "الأجهزة والعتاد" }
+  ];
+
+  const getTrackLabel = (trackId: string) => {
+    const found = tracks.find(t => t.id === trackId);
+    return found ? found.label : trackId;
+  };
 
   const moveCard = (id: string, direction: "prev" | "next") => {
     const statusOrder: ProjectCard["status"][] = ["idea", "prototyping", "testing", "completed"];
@@ -44,32 +56,32 @@ export default function ProjectsKanban() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-right">
       {/* Title */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-obsidian-800 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-obsidian-800 pb-6 text-right">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            FabLab Projects Board
+          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center justify-start flex-row-reverse gap-2 text-right">
+            لوحة مشاريع FabLab
             <span className="text-xs bg-emerald-glow/10 border border-emerald-glow/35 text-emerald-glow font-mono px-2 py-0.5 rounded-full font-bold">
-              Kanban Flow
+              مسار كانبان
             </span>
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            Track student group innovation models and rapid prototyping progress.
+            تابع نماذج ابتكار مجموعات الطلاب وتقدم النمذجة السريعة.
           </p>
         </div>
 
         {/* Track Filter */}
-        <div className="flex items-center gap-2 bg-obsidian-900 px-3 py-2 rounded-xl border border-obsidian-800">
-          <span className="text-xs text-gray-500 font-semibold uppercase">Track:</span>
+        <div className="flex items-center gap-2 bg-obsidian-900 px-3 py-2 rounded-xl border border-obsidian-800 justify-start flex-row-reverse">
+          <span className="text-xs text-gray-500 font-semibold uppercase">المسار:</span>
           <select
             value={selectedTrack}
             onChange={(e) => setSelectedTrack(e.target.value)}
-            className="bg-transparent text-xs text-gray-300 focus:outline-none cursor-pointer pr-4 font-bold"
+            className="bg-transparent text-xs text-gray-300 focus:outline-none cursor-pointer pl-4 font-bold text-right"
           >
             {tracks.map((t) => (
-              <option key={t} value={t} className="bg-obsidian-950">
-                {t}
+              <option key={t.id} value={t.id} className="bg-obsidian-950">
+                {t.label}
               </option>
             ))}
           </select>
@@ -77,14 +89,14 @@ export default function ProjectsKanban() {
       </div>
 
       {/* Kanban Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start text-right">
         {columns.map((col) => {
           const colProjects = filteredProjects.filter((p) => p.status === col.id);
 
           return (
-            <div key={col.id} className="space-y-4">
+            <div key={col.id} className="space-y-4 text-right">
               {/* Column Header */}
-              <div className={cn("border rounded-xl p-3 flex justify-between items-center font-bold text-xs", col.color)}>
+              <div className={cn("border rounded-xl p-3 flex justify-between items-center font-bold text-xs flex-row-reverse", col.color)}>
                 <span>{col.title}</span>
                 <span className="font-mono bg-white/10 px-2 py-0.5 rounded-full">
                   {colProjects.length}
@@ -95,7 +107,7 @@ export default function ProjectsKanban() {
               <div className="space-y-4 min-h-[300px]">
                 {colProjects.length === 0 ? (
                   <div className="border border-dashed border-obsidian-800 rounded-xl p-6 text-center text-gray-600 font-mono text-[10px]">
-                    EMPTY COLUMN
+                    عمود فارغ
                   </div>
                 ) : (
                   colProjects.map((p) => {
@@ -107,12 +119,12 @@ export default function ProjectsKanban() {
                       Hardware: "text-gray-400 border-gray-400/20 bg-gray-500/5",
                     };
 
-                    const activeTrackColor = trackColors[p.track] || trackColors.Hardware;
+                    const activeTrackColor = trackColors[p.track as keyof typeof trackColors] || trackColors.Hardware;
 
                     return (
                       <GlassCard 
                         key={p.id} 
-                        className="p-4 space-y-4 group relative" 
+                        className="p-4 space-y-4 group relative text-right" 
                         hoverable={true}
                         glowColor={
                           p.status === "completed" ? "emerald" : 
@@ -121,22 +133,22 @@ export default function ProjectsKanban() {
                         }
                       >
                         {/* Title & Track */}
-                        <div>
+                        <div className="text-right">
                           <span className={cn("px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-wider font-mono", activeTrackColor)}>
-                            {p.track}
+                            {getTrackLabel(p.track)}
                           </span>
-                          <h4 className="text-sm font-bold text-white mt-2 group-hover:text-cyber-cyan transition-colors">
+                          <h4 className="text-sm font-bold text-white mt-2 group-hover:text-cyber-cyan transition-colors text-right">
                             {p.title}
                           </h4>
-                          <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                          <p className="text-gray-400 text-xs mt-1 leading-relaxed text-right">
                             {p.description}
                           </p>
                         </div>
 
                         {/* Progress Bar */}
-                        <div className="space-y-1.5">
-                          <div className="flex justify-between text-[10px] font-mono text-gray-500">
-                            <span>Progress</span>
+                        <div className="space-y-1.5 text-right">
+                          <div className="flex justify-between text-[10px] font-mono text-gray-500 flex-row-reverse">
+                            <span>التقدم</span>
                             <span>{p.progress}%</span>
                           </div>
                           <div className="h-1.5 w-full bg-obsidian-950 rounded-full overflow-hidden border border-obsidian-800">
@@ -154,7 +166,7 @@ export default function ProjectsKanban() {
                         </div>
 
                         {/* Team members */}
-                        <div className="flex flex-wrap gap-1.5 pt-1">
+                        <div className="flex flex-wrap gap-1.5 pt-1 justify-start">
                           {p.team.map((m, idx) => (
                             <span 
                               key={idx} 
@@ -166,17 +178,7 @@ export default function ProjectsKanban() {
                         </div>
 
                         {/* Action buttons to shift columns */}
-                        <div className="flex justify-between border-t border-obsidian-800 pt-3 text-[10px] font-bold">
-                          <button
-                            onClick={() => moveCard(p.id, "prev")}
-                            disabled={p.status === "idea"}
-                            className={cn(
-                              "px-2 py-1 rounded border border-obsidian-800 bg-obsidian-950 text-gray-400 hover:text-white transition-all cursor-pointer",
-                              p.status === "idea" && "opacity-30 cursor-not-allowed"
-                            )}
-                          >
-                            ← Back
-                          </button>
+                        <div className="flex justify-between border-t border-obsidian-800 pt-3 text-[10px] font-bold flex-row-reverse">
                           <button
                             onClick={() => moveCard(p.id, "next")}
                             disabled={p.status === "completed"}
@@ -185,7 +187,17 @@ export default function ProjectsKanban() {
                               p.status === "completed" && "opacity-30 cursor-not-allowed"
                             )}
                           >
-                            Advance →
+                            ← تقدم
+                          </button>
+                          <button
+                            onClick={() => moveCard(p.id, "prev")}
+                            disabled={p.status === "idea"}
+                            className={cn(
+                              "px-2 py-1 rounded border border-obsidian-800 bg-obsidian-950 text-gray-400 hover:text-white transition-all cursor-pointer",
+                              p.status === "idea" && "opacity-30 cursor-not-allowed"
+                            )}
+                          >
+                            رجوع →
                           </button>
                         </div>
                       </GlassCard>

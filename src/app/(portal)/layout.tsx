@@ -23,11 +23,11 @@ export default function PortalLayout({
   const [collapsed, setCollapsed] = useState(false);
 
   const menuItems = [
-    { name: "My Dashboard", icon: LayoutDashboard, path: "/portal/dashboard", activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5", color: "hover:text-cyber-cyan hover:border-cyber-cyan/30" },
-    { name: "My Schedule", icon: Calendar, path: "/portal/schedule", activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5", color: "hover:text-neon-purple hover:border-neon-purple/30" },
-    { name: "Report Cards", icon: ScrollText, path: "/portal/report-cards", activeColor: "text-emerald-glow border-emerald-glow/45 bg-emerald-glow/5", color: "hover:text-emerald-glow hover:border-emerald-glow/30" },
-    { name: "Fees & Dues", icon: Wallet, path: "/portal/fees", activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5", color: "hover:text-laser-amber hover:border-laser-amber/30" },
-    { name: "My Activities", icon: Trophy, path: "/portal/my-activities", activeColor: "text-neon-red border-neon-red/45 bg-neon-red/5", color: "hover:text-neon-red hover:border-neon-red/30" },
+    { name: "لوحة التحكم الخاصة بي", icon: LayoutDashboard, path: "/portal/dashboard", activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5", color: "hover:text-cyber-cyan hover:border-cyber-cyan/30" },
+    { name: "جدولي الدراسي", icon: Calendar, path: "/portal/schedule", activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5", color: "hover:text-neon-purple hover:border-neon-purple/30" },
+    { name: "كشف النقاط والشهادات", icon: ScrollText, path: "/portal/report-cards", activeColor: "text-emerald-glow border-emerald-glow/45 bg-emerald-glow/5", color: "hover:text-emerald-glow hover:border-emerald-glow/30" },
+    { name: "المستحقات المالية", icon: Wallet, path: "/portal/fees", activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5", color: "hover:text-laser-amber hover:border-laser-amber/30" },
+    { name: "أنشطتي ومشاريعي", icon: Trophy, path: "/portal/my-activities", activeColor: "text-neon-red border-neon-red/45 bg-neon-red/5", color: "hover:text-neon-red hover:border-neon-red/30" },
   ];
 
   return (
@@ -45,7 +45,7 @@ export default function PortalLayout({
               </div>
               <div>
                 <span className="font-extrabold text-white font-sans tracking-wide">TECHFORGE</span>
-                <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">PORTAL</span>
+                <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">بوابة الطالب</span>
               </div>
             </div>
           )}
@@ -86,13 +86,13 @@ export default function PortalLayout({
         <div className="p-4 border-t border-obsidian-800">
           <div className={cn("flex items-center gap-3", collapsed ? "justify-center" : "px-2")}>
             <div className="w-10 h-10 rounded-full border border-obsidian-800 bg-gradient-to-tr from-obsidian-900 to-obsidian-850 flex items-center justify-center font-bold text-white relative">
-              AB
+              أب
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyber-cyan border-2 border-obsidian-950 rounded-full pulse-cyan" />
             </div>
             {!collapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-white truncate">Amine Bouaziz</p>
-                <p className="text-xs text-gray-500 truncate">Robotics Track · L3</p>
+              <div className="flex-1 min-w-0 text-right">
+                <p className="text-sm font-semibold text-white truncate">أمين بوعزيز</p>
+                <p className="text-xs text-gray-500 truncate">مسار الروبوتيك · المستوى 3</p>
               </div>
             )}
           </div>
@@ -103,13 +103,13 @@ export default function PortalLayout({
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto h-screen">
         {/* Minimal Portal Header */}
         <header className="h-20 border-b border-obsidian-800 bg-obsidian-950/40 backdrop-blur-md sticky top-0 flex items-center justify-between px-8 z-20">
-          <div>
-            <p className="text-xs text-gray-500 font-mono uppercase tracking-widest">Student Portal</p>
-            <p className="text-sm font-bold text-white">Welcome back, Amine 👋</p>
+          <div className="text-right">
+            <p className="text-xs text-gray-500 font-mono uppercase tracking-widest">بوابة الطالب</p>
+            <p className="text-sm font-bold text-white">مرحباً بك مجدداً، أمين 👋</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyber-cyan/5 border border-cyber-cyan/20">
             <span className="w-2 h-2 rounded-full bg-cyber-cyan pulse-cyan" />
-            <span className="text-xs font-bold text-cyber-cyan font-mono">Session Active</span>
+            <span className="text-xs font-bold text-cyber-cyan font-mono">الجلسة نشطة</span>
           </div>
         </header>
 

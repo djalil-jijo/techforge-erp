@@ -16,16 +16,16 @@ interface CustodyItem {
 }
 
 const INITIAL_ITEMS: CustodyItem[] = [
-  { id: "CST-01", name: "Raspberry Pi 4 Model B (4GB)", category: "Robotics/Core", checkoutDate: "2026-06-10", expectedReturn: "2026-06-24", status: "nominal" },
-  { id: "CST-02", name: "TS100 Smart Soldering Iron", category: "Hand Tools", checkoutDate: "2026-06-12", expectedReturn: "2026-06-20", status: "nominal" },
-  { id: "CST-03", name: "Arduino Uno Starter Kit R3", category: "Electronics/Micro", checkoutDate: "2026-06-15", expectedReturn: "2026-06-25", status: "nominal" },
+  { id: "CST-01", name: "جهاز Raspberry Pi 4 Model B (4GB)", category: "الروبوتات / أساسي", checkoutDate: "2026-06-10", expectedReturn: "2026-06-24", status: "nominal" },
+  { id: "CST-02", name: "كاوية لحام ذكية TS100", category: "أدوات يدوية", checkoutDate: "2026-06-12", expectedReturn: "2026-06-20", status: "nominal" },
+  { id: "CST-03", name: "حقيبة تجارب Arduino Uno R3", category: "الإلكترونيات / دقيقة", checkoutDate: "2026-06-15", expectedReturn: "2026-06-25", status: "nominal" },
 ];
 
 export default function MyToolsCustody() {
   const [items, setItems] = useState<CustodyItem[]>(INITIAL_ITEMS);
 
   const reportDamage = (id: string) => {
-    const reason = prompt("Describe hardware error / damage status details:");
+    const reason = prompt("صف حالة العطل أو التلف الحاصل في الجهاز:");
     if (!reason) return;
 
     setItems((prev) =>
@@ -33,21 +33,30 @@ export default function MyToolsCustody() {
         item.id === id ? { ...item, status: "faulty" as const } : item
       )
     );
-    alert("Damage report submitted to Vault Administration.");
+    alert("تم إرسال تقرير التلف إلى إدارة العهد والأجهزة.");
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "nominal": return "سليم";
+      case "faulty": return "تالف";
+      case "degraded": return "متدهور";
+      default: return status;
+    }
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-right">
       {/* Title */}
       <div className="border-b border-obsidian-800 pb-6">
         <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          My Custody Vault
+          عهدة الأجهزة والمعدات
           <span className="text-xs bg-laser-amber/10 border border-laser-amber/35 text-laser-amber font-mono px-2 py-0.5 rounded-full font-bold">
-            Personal Registry
+            السجل الشخصي
           </span>
         </h1>
         <p className="text-gray-400 text-sm mt-1">
-          Monitor microcontrollers, diagnostic tools, and equipment allocated to your training sessions.
+          راقب المتحكمات الدقيقة، وأدوات التشخيص، والمعدات المخصصة لحصصك التدريبية.
         </p>
       </div>
 
@@ -82,7 +91,7 @@ export default function MyToolsCustody() {
                     item.status === "faulty" && "text-neon-red",
                     item.status === "degraded" && "text-laser-amber"
                   )}>
-                    {item.status}
+                    {getStatusLabel(item.status)}
                   </span>
                 </div>
               </div>
@@ -91,20 +100,20 @@ export default function MyToolsCustody() {
                 <Cpu className="w-4.5 h-4.5 text-laser-amber" />
                 {item.name}
               </h3>
-              <p className="text-gray-400 text-xs mt-1 font-semibold">Lease Date: {item.checkoutDate} • Return Deadline: {item.expectedReturn}</p>
+              <p className="text-gray-400 text-xs mt-1 font-semibold text-right">تاريخ الاستلام: {item.checkoutDate} • موعد الإرجاع: {item.expectedReturn}</p>
             </div>
 
             <div className="border-t border-obsidian-850 pt-3 flex items-center justify-between text-[10px]">
-              <span className="text-gray-500 font-mono">PROTOCOL EXPIRED?</span>
+              <span className="text-gray-500 font-mono">هل انتهى البروتوكول؟</span>
               {item.status !== "faulty" ? (
                 <button
                   onClick={() => reportDamage(item.id)}
                   className="px-2.5 py-1.5 rounded-lg border border-neon-red/25 hover:border-neon-red bg-neon-red/5 hover:bg-neon-red/10 text-neon-red font-bold font-sans transition-all cursor-pointer"
                 >
-                  Report Damage
+                  الإبلاغ عن تلف
                 </button>
               ) : (
-                <span className="text-neon-red font-bold font-mono">DAMAGE REPORT SENT</span>
+                <span className="text-neon-red font-bold font-mono">تم إرسال بلاغ التلف</span>
               )}
             </div>
           </GlassCard>

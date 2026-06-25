@@ -25,35 +25,35 @@ export default function TeacherLayout({
 
   const menuItems = [
     {
-      name: "Daily Overview",
+      name: "لوحة التحكم",
       icon: LayoutDashboard,
       path: "/teacher/dashboard",
       color: "hover:text-cyber-cyan hover:border-cyber-cyan/30",
       activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5",
     },
     {
-      name: "My Custody Vault",
+      name: "عهدة الأجهزة",
       icon: Cpu,
       path: "/teacher/my-tools",
       color: "hover:text-laser-amber hover:border-laser-amber/30",
       activeColor: "text-laser-amber border-laser-amber/45 bg-laser-amber/5",
     },
     {
-      name: "Attendance register",
+      name: "سجل الحضور",
       icon: CheckSquare,
       path: "/teacher/attendance",
       color: "hover:text-emerald-glow hover:border-emerald-glow/30",
       activeColor: "text-emerald-glow border-emerald-glow/45 bg-emerald-glow/5",
     },
     {
-      name: "Grades Entry",
+      name: "رصد الدرجات",
       icon: Award,
       path: "/teacher/grades",
       color: "hover:text-neon-purple hover:border-neon-purple/30",
       activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5",
     },
     {
-      name: "Write Lesson Report",
+      name: "تقرير الحصة الرقمي",
       icon: FileText,
       path: "/teacher/reports/create",
       color: "hover:text-neon-red hover:border-neon-red/30",
@@ -62,11 +62,11 @@ export default function TeacherLayout({
   ];
 
   return (
-    <div className="flex min-h-screen bg-obsidian-950 text-foreground overflow-hidden">
+    <div className="flex min-h-screen bg-obsidian-950 text-foreground overflow-hidden text-right" dir="rtl">
       {/* Collapsible Instructor Sidebar */}
       <aside
         className={cn(
-          "glass-panel border-r border-obsidian-800 flex flex-col h-screen transition-all duration-300 z-30 sticky top-0",
+          "glass-panel border-l border-obsidian-800 flex flex-col h-screen transition-all duration-300 z-30 sticky top-0",
           collapsed ? "w-20" : "w-64"
         )}
       >
@@ -76,9 +76,9 @@ export default function TeacherLayout({
               <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center pulse-cyan">
                 <span className="text-cyber-cyan font-bold text-lg font-mono">T</span>
               </div>
-              <div>
-                <span className="font-extrabold text-white font-sans tracking-wide">TECHFORGE</span>
-                <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">STAFF</span>
+              <div className="text-right">
+                <span className="font-extrabold text-white font-sans tracking-wide">تك فورج</span>
+                <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">طاقم التدريس</span>
               </div>
             </div>
           )}
@@ -91,7 +91,7 @@ export default function TeacherLayout({
             onClick={() => setCollapsed(!collapsed)}
             className="p-1 rounded-lg border border-obsidian-700 bg-obsidian-850 hover:bg-obsidian-800 hover:text-cyber-cyan text-gray-400 transition-colors hidden md:block cursor-pointer"
           >
-            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            {collapsed ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>
         </div>
 
@@ -120,13 +120,13 @@ export default function TeacherLayout({
         <div className="p-4 border-t border-obsidian-800">
           <div className={cn("flex items-center gap-3", collapsed ? "justify-center" : "px-2")}>
             <div className="w-10 h-10 rounded-full border border-obsidian-800 bg-gradient-to-tr from-obsidian-900 to-obsidian-850 flex items-center justify-center font-bold text-white relative">
-              LT
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-glow border-2 border-obsidian-950 rounded-full" />
+              لم
+              <span className="absolute bottom-0 left-0 w-3 h-3 bg-emerald-glow border-2 border-obsidian-950 rounded-full" />
             </div>
             {!collapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-white truncate">Lamine Touati</p>
-                <p className="text-xs text-gray-500 truncate">Senior Instructor</p>
+              <div className="flex-1 min-w-0 text-right">
+                <p className="text-sm font-semibold text-white truncate">لمين تواتي</p>
+                <p className="text-xs text-gray-500 truncate">مدرب أول</p>
               </div>
             )}
           </div>

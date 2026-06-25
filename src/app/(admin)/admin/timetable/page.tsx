@@ -22,9 +22,9 @@ const MOCK_SLOTS: Slot[] = [
   {
     id: "SLT-01",
     time: "09:00 - 11:00",
-    classRoom: "Robotics Deck A",
-    instructor: "Prof. Lamine Touati",
-    hardwareRequested: "Arduino Uno Kits",
+    classRoom: "منصة الروبوتات (أ)",
+    instructor: "أ. لمين تواتي",
+    hardwareRequested: "حقائب تجارب Arduino Uno",
     qtyRequested: 15,
     qtyAvailableInVault: 18,
     conflict: false,
@@ -32,20 +32,20 @@ const MOCK_SLOTS: Slot[] = [
   {
     id: "SLT-02",
     time: "11:00 - 13:00",
-    classRoom: "Central FabLab",
-    instructor: "Dr. Meriem Bella",
-    hardwareRequested: "Creality Ender-3 3D Printers",
+    classRoom: "مختبر التصنيع المركزي",
+    instructor: "د. مريم بيلا",
+    hardwareRequested: "طابعات ثلاثية الأبعاد Creality Ender-3",
     qtyRequested: 6,
     qtyAvailableInVault: 5,
     conflict: true,
-    conflictDetails: "Capacity Deficit: 6 units requested for printing, only 5 units registered in Vault A-1.",
+    conflictDetails: "عجز في السعة: تم طلب 6 وحدات للطباعة، بينما يوجد 5 وحدات فقط مسجلة في المخزن أ-1.",
   },
   {
     id: "SLT-03",
     time: "14:00 - 16:00",
-    classRoom: "IoT Circuits Deck B",
-    instructor: "Ing. Jamel Djaoued",
-    hardwareRequested: "TS100 Smart Soldering Irons",
+    classRoom: "منصة الدوائر لإنترنت الأشياء (ب)",
+    instructor: "م. جمال جاود",
+    hardwareRequested: "كاوية لحام ذكية TS100",
     qtyRequested: 10,
     qtyAvailableInVault: 12,
     conflict: false,
@@ -53,13 +53,13 @@ const MOCK_SLOTS: Slot[] = [
   {
     id: "SLT-04",
     time: "16:00 - 18:00",
-    classRoom: "Central FabLab",
-    instructor: "Prof. Lamine Touati",
-    hardwareRequested: "CNC 3018 Pro Engraver",
+    classRoom: "مختبر التصنيع المركزي",
+    instructor: "أ. لمين تواتي",
+    hardwareRequested: "جهاز الحفر CNC 3018 Pro",
     qtyRequested: 3,
     qtyAvailableInVault: 2,
     conflict: true,
-    conflictDetails: "Conflict: 3 routers requested for slot, only 2 units registered in Central Vault.",
+    conflictDetails: "تعارض: تم طلب 3 أجهزة حفر CNC لهذه الحصة، بينما يوجد جهازين فقط في المخزن المركزي.",
   },
 ];
 
@@ -77,53 +77,53 @@ export default function TimetableScheduler() {
   const conflictsCount = slots.filter((s) => s.conflict).length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-right">
       {/* Title */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-obsidian-800 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-obsidian-800 pb-6 text-right">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            Dynamic Matrix Scheduler
+          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center justify-start flex-row-reverse gap-2 text-right">
+            المخطط الديناميكي للمصفوفة الزمنية
             <span className="text-xs bg-laser-amber/10 border border-laser-amber/35 text-laser-amber font-mono px-2 py-0.5 rounded-full font-bold">
-              Conflict Engine
+              محرك كشف التعارض
             </span>
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            Resolve room slots and audit hardware allocations to prevent device deficit locks.
+            قم بحل تعارضات القاعات وتدقيق مخصصات الأجهزة لمنع قفل العجز في المعدات.
           </p>
         </div>
 
         <button
           onClick={runConflictScan}
           disabled={scanStatus === "scanning"}
-          className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold font-mono rounded-xl border border-laser-amber/40 hover:border-laser-amber bg-laser-amber/5 hover:bg-laser-amber/10 text-laser-amber transition-all cursor-pointer disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl border border-laser-amber/40 hover:border-laser-amber bg-laser-amber/5 hover:bg-laser-amber/10 text-laser-amber transition-all cursor-pointer disabled:opacity-50 mr-auto"
         >
           <RefreshCw className={cn("w-3.5 h-3.5", scanStatus === "scanning" && "animate-spin")} />
-          {scanStatus === "scanning" ? "Auditing Vault Stocks..." : "Execute Conflict Scan"}
+          {scanStatus === "scanning" ? "جاري تدقيق مخزون الأجهزة..." : "تشغيل فحص التعارضات"}
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <StatCard
-          title="Scheduled Slots"
+          title="الحصص المجدولة"
           value={slots.length}
-          change="Today's session plans"
+          change="مخططات حصص اليوم"
           changeType="neutral"
           icon={Calendar}
           themeColor="cyan"
         />
         <StatCard
-          title="Hardware Deficiency Alerts"
+          title="تنبيهات نقص المعدات"
           value={conflictsCount}
-          change={conflictsCount > 0 ? "Requires schedule adjustment" : "No conflicts detected"}
+          change={conflictsCount > 0 ? "يتطلب تعديل الجدول الزمني" : "لم يتم الكشف عن تعارضات"}
           changeType={conflictsCount > 0 ? "decrease" : "neutral"}
           icon={AlertOctagon}
           themeColor={conflictsCount > 0 ? "purple" : "emerald"}
         />
         <StatCard
-          title="Avg Hardware Load"
+          title="متوسط تحميل الأجهزة"
           value="72%"
-          change="Active vault query level"
+          change="مستوى الاستعلام النشط للمخزن"
           changeType="neutral"
           icon={Cpu}
           themeColor="emerald"
@@ -132,23 +132,23 @@ export default function TimetableScheduler() {
 
       {/* Conflict Warnings (Visible in Red Alerts) */}
       {conflictsCount > 0 && (
-        <div className="space-y-4">
-          <h3 className="text-sm font-extrabold text-neon-red font-mono uppercase tracking-wider flex items-center gap-2">
+        <div className="space-y-4 text-right">
+          <h3 className="text-sm font-extrabold text-neon-red font-mono uppercase tracking-wider flex items-center justify-start flex-row-reverse gap-2 text-right">
             <span className="w-2 h-2 rounded-full bg-neon-red animate-ping" />
-            CRITICAL MATRIX DEFICIT DETECTED
+            تم الكشف عن عجز حرج في المصفوفة
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
             {slots.filter(s => s.conflict).map(slot => (
               <div 
                 key={slot.id} 
-                className="p-5 rounded-2xl bg-neon-red/5 border-2 border-neon-red/30 glow-border-red/25 flex gap-4 text-xs"
+                className="p-5 rounded-2xl bg-neon-red/5 border-2 border-neon-red/30 glow-border-red/25 flex gap-4 text-xs text-right flex-row-reverse"
               >
                 <AlertOctagon className="w-6 h-6 text-neon-red animate-pulse flex-shrink-0" />
-                <div className="space-y-1">
-                  <h4 className="font-bold text-white font-mono">{slot.time} • {slot.classRoom}</h4>
-                  <p className="text-gray-400 font-semibold">{slot.conflictDetails}</p>
-                  <p className="text-[10px] text-gray-500 font-mono">
-                    REQUESTED: {slot.qtyRequested} units of {slot.hardwareRequested} • AVAIL: {slot.qtyAvailableInVault}
+                <div className="space-y-1 text-right flex-1">
+                  <h4 className="font-bold text-white font-mono text-right">{slot.time} • {slot.classRoom}</h4>
+                  <p className="text-gray-400 font-semibold text-right">{slot.conflictDetails}</p>
+                  <p className="text-[10px] text-gray-500 font-mono text-right">
+                    المطلوب: {slot.qtyRequested} وحدات من {slot.hardwareRequested} • المتوفر: {slot.qtyAvailableInVault}
                   </p>
                 </div>
               </div>
@@ -159,28 +159,28 @@ export default function TimetableScheduler() {
 
       {/* Scheduler Slots Table */}
       <GlassCard hoverable={false}>
-        <h4 className="text-lg font-bold text-white mb-6">Today's Allocation Matrix</h4>
+        <h4 className="text-lg font-bold text-white mb-6 text-right">مصفوفة التخصيص اليومية</h4>
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+          <table className="w-full text-right border-collapse text-xs">
             <thead>
               <tr className="border-b border-obsidian-800 text-gray-500 font-mono uppercase">
-                <th className="pb-3 font-semibold">Slot ID</th>
-                <th className="pb-3 font-semibold">Time Window</th>
-                <th className="pb-3 font-semibold">Room / Lab</th>
-                <th className="pb-3 font-semibold">Instructor</th>
-                <th className="pb-3 font-semibold">Requested Parts</th>
-                <th className="pb-3 font-semibold text-center">Qty Required</th>
-                <th className="pb-3 font-semibold text-center">Status</th>
+                <th className="pb-3 font-semibold text-right">رمز الحصة</th>
+                <th className="pb-3 font-semibold text-right">الفترة الزمنية</th>
+                <th className="pb-3 font-semibold text-right">القاعة / المختبر</th>
+                <th className="pb-3 font-semibold text-right">المدرب</th>
+                <th className="pb-3 font-semibold text-right">المعدات المطلوبة</th>
+                <th className="pb-3 font-semibold text-center">الكمية المطلوبة</th>
+                <th className="pb-3 font-semibold text-center">الحالة</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-obsidian-850">
               {slots.map((slot) => (
                 <tr key={slot.id} className={cn("hover:bg-obsidian-900/40 transition-colors", slot.conflict && "bg-neon-red/5 hover:bg-neon-red/10")}>
-                  <td className="py-3.5 font-mono text-gray-400 font-semibold">{slot.id}</td>
-                  <td className="py-3.5 text-white font-mono font-bold">{slot.time}</td>
-                  <td className="py-3.5 text-gray-300 font-semibold">{slot.classRoom}</td>
-                  <td className="py-3.5 text-gray-400 font-semibold">{slot.instructor}</td>
-                  <td className="py-3.5 text-gray-300 font-mono">{slot.hardwareRequested}</td>
+                  <td className="py-3.5 font-mono text-gray-400 font-semibold text-right">{slot.id}</td>
+                  <td className="py-3.5 text-white font-mono font-bold text-right">{slot.time}</td>
+                  <td className="py-3.5 text-gray-300 font-semibold text-right">{slot.classRoom}</td>
+                  <td className="py-3.5 text-gray-400 font-semibold text-right">{slot.instructor}</td>
+                  <td className="py-3.5 text-gray-300 font-mono text-right">{slot.hardwareRequested}</td>
                   <td className="py-3.5 text-center font-mono font-bold text-cyber-cyan">{slot.qtyRequested}</td>
                   <td className="py-3.5 text-center">
                     <span
@@ -191,7 +191,7 @@ export default function TimetableScheduler() {
                           : "bg-emerald-glow/5 border-emerald-glow/20 text-emerald-glow"
                       )}
                     >
-                      {slot.conflict ? "Conflict Locked" : "Authorized"}
+                      {slot.conflict ? "تعارض مغلق" : "مصرح به"}
                     </span>
                   </td>
                 </tr>

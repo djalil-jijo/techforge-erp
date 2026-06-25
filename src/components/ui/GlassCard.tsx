@@ -7,7 +7,7 @@ interface GlassCardProps {
   children: React.ReactNode;
   className?: string;
   hoverable?: boolean;
-  glowColor?: "cyan" | "amber" | "emerald" | "purple" | "red";
+  glowColor?: "cyan" | "amber" | "emerald" | "purple" | "red" | "none";
 }
 
 const glowColorMap = {
@@ -16,6 +16,7 @@ const glowColorMap = {
   emerald: "hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] hover:border-emerald-glow/40",
   purple: "hover:shadow-[0_0_20px_rgba(217,70,239,0.15)] hover:border-neon-purple/40",
   red: "hover:shadow-[0_0_20px_rgba(255,68,68,0.15)] hover:border-neon-red/40",
+  none: "",
 };
 
 export function GlassCard({

@@ -51,7 +51,7 @@ export function RevenueChart() {
     <div className="glass-card p-6">
       <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
         📈 الإيرادات والمصاريف الشهرية
-        <span className="text-xs font-mono text-cyber-cyan">Monthly Trends</span>
+        <span className="text-xs font-mono text-cyber-cyan">الاتجاهات الشهرية</span>
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={revenueData}>
@@ -93,7 +93,7 @@ export function TrackDistributionChart() {
     <div className="glass-card p-6">
       <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
         🎓 توزيع الطلاب على المسارات
-        <span className="text-xs font-mono text-neon-purple">Distribution</span>
+        <span className="text-xs font-mono text-neon-purple">التوزيع العام</span>
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -129,7 +129,7 @@ export function EquipmentUsageChart() {
     <div className="glass-card p-6">
       <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
         🛠️ معدل استخدام المعدات
-        <span className="text-xs font-mono text-laser-amber">Usage Rate</span>
+        <span className="text-xs font-mono text-laser-amber">معدل الاستخدام</span>
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={equipmentUsage}>

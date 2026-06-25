@@ -370,3 +370,76 @@ export const DASHBOARD_STATS = {
   totalRevenue: MOCK_TRANSACTIONS.filter(t => t.status === 'Completed').reduce((sum, t) => sum + t.amount, 0),
   pendingPayments: MOCK_TRANSACTIONS.filter(t => t.status === 'Pending').reduce((sum, t) => sum + t.amount, 0),
 };
+
+export interface ProjectCard {
+  id: string;
+  title: string;
+  description: string;
+  track: "Robotics" | "IoT" | "CNC" | "AI / Software" | "Hardware";
+  status: "idea" | "prototyping" | "testing" | "completed";
+  progress: number;
+  team: string[];
+}
+
+export const MOCK_PROJECTS: ProjectCard[] = [
+  {
+    id: "PRJ-001",
+    title: "روبوت فرز النفايات الذكي",
+    description: "تطوير روبوت ذكي يستخدم الذكاء الاصطناعي لتصنيف وفرز النفايات تلقائياً باستخدام معالج Raspberry Pi 4 وكاميرا عالية الدقة.",
+    track: "Robotics",
+    status: "prototyping",
+    progress: 65,
+    team: ["محمد علي بن عمارة", "عمر صالح قاسمي"],
+  },
+  {
+    id: "PRJ-002",
+    title: "نظام الري الذكي الزراعي LoRaWAN",
+    description: "تصميم جهاز مدمج يعتمد على متحكم Arduino ومستشعرات الرطوبة والحرارة لإرسال بيانات التربة عبر شبكة LoRaWAN لتوفير المياه.",
+    track: "IoT",
+    status: "testing",
+    progress: 85,
+    team: ["فاطمة الزهراء مرابط", "نور الدين يوسفي"],
+  },
+  {
+    id: "PRJ-003",
+    title: "طابعة ثلاثية الأبعاد مخصصة",
+    description: "بناء هيكل طابعة 3D ميكانيكي مخصص وحفر قطع التجميع باستخدام آلات CNC بالمركز لتصنيع مجسمات دقيقة بألياف الكربون.",
+    track: "CNC",
+    status: "idea",
+    progress: 20,
+    team: ["ليلى خديجة براهيمي", "حسن محمود بلحج"],
+  },
+  {
+    id: "PRJ-004",
+    title: "منصة تتبع أداء المصانع الذكية",
+    description: "لوحة تحكم برمجية تفاعلية تستقبل البيانات من مستشعرات الآلات وتحللها لتوقع الأعطال وعرض الكفاءة الكلية للمعدات.",
+    track: "AI / Software",
+    status: "completed",
+    progress: 100,
+    team: ["محمد علي بن عمارة", "فاطمة الزهراء مرابط"],
+  },
+  {
+    id: "PRJ-005",
+    title: "شاسيه سيارة ذاتية القيادة مصغر",
+    description: "تصميم لوحة دوائر مطبوعة (PCB) مخصصة لتغذية محركات التيار المستمر وتجميع الحساسات الفوق صوتية على هيكل أكريليك متين.",
+    track: "Hardware",
+    status: "prototyping",
+    progress: 45,
+    team: ["عمر صالح قاسمي", "ليلى خديجة براهيمي"],
+  },
+];
+
+export const MOCK_REVENUE = [
+  { month: "يناير", amount: 45000 },
+  { month: "فبراير", amount: 52000 },
+  { month: "مارس", amount: 48000 },
+  { month: "أبريل", amount: 61000 },
+  { month: "مايو", amount: 55000 },
+  { month: "يونيو", amount: 72000 },
+];
+
+export const MOCK_TRACKS = [
+  { name: "الروبوتيك", value: 45, color: "#00d9ff" },
+  { name: "الإلكترونيات", value: 25, color: "#ffb800" },
+  { name: "البرمجة", value: 30, color: "#00ff88" },
+];

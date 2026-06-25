@@ -7,48 +7,48 @@ import { cn } from "@/lib/utils";
 
 const REPORT_CARDS = [
   {
-    period: "Spring Term 2026",
+    period: "الفصل الربيعي 2026",
     date: "2026-06-01",
     scores: [
-      { skill: "Programming Logic", score: 18, max: 20 },
-      { skill: "Circuit Assembly", score: 16, max: 20 },
-      { skill: "Soldering Quality", score: 19, max: 20 },
-      { skill: "3D Design Skills", score: 14, max: 20 },
-      { skill: "Team Collaboration", score: 18, max: 20 },
+      { skill: "منطق البرمجة", score: 18, max: 20 },
+      { skill: "تجميع الدوائر الإلكترونية", score: 16, max: 20 },
+      { skill: "جودة اللحام", score: 19, max: 20 },
+      { skill: "مهارات التصميم ثلاثي الأبعاد", score: 14, max: 20 },
+      { skill: "العمل الجماعي والتعاون", score: 18, max: 20 },
     ],
-    certification: "Advanced Robotics Level 2",
+    certification: "روبوتات متقدمة - المستوى الثاني",
     passed: true,
   },
   {
-    period: "Autumn Term 2025",
+    period: "الفصل الخريفي 2025",
     date: "2025-12-15",
     scores: [
-      { skill: "Programming Logic", score: 15, max: 20 },
-      { skill: "Circuit Assembly", score: 14, max: 20 },
-      { skill: "Soldering Quality", score: 17, max: 20 },
-      { skill: "3D Design Skills", score: 10, max: 20 },
-      { skill: "Team Collaboration", score: 16, max: 20 },
+      { skill: "منطق البرمجة", score: 15, max: 20 },
+      { skill: "تجميع الدوائر الإلكترونية", score: 14, max: 20 },
+      { skill: "جودة اللحام", score: 17, max: 20 },
+      { skill: "مهارات التصميم ثلاثي الأبعاد", score: 10, max: 20 },
+      { skill: "العمل الجماعي والتعاون", score: 16, max: 20 },
     ],
-    certification: "Robotics Fundamentals Level 1",
+    certification: "أساسيات الروبوتات - المستوى الأول",
     passed: true,
   },
 ];
 
 export default function ReportCards() {
   const handleDownload = (period: string) => {
-    alert(`Downloading signed PDF certificate for: ${period}\n\n[In production this would trigger a PDF generation API]`);
+    alert(`جاري تحميل الشهادة الموقعة لـ: ${period}\n\n[في بيئة الإنتاج، سيقوم هذا بتشغيل واجهة برمجة التطبيقات لتوليد ملف PDF]`);
   };
 
   return (
     <div className="space-y-8">
       <div className="border-b border-obsidian-800 pb-6">
         <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          Report Cards
+          كشوف النقاط والشهادات
           <span className="text-xs bg-emerald-glow/10 border border-emerald-glow/35 text-emerald-glow font-mono px-2 py-0.5 rounded-full font-bold">
-            Signed Digitally
+            موقّع رقمياً
           </span>
         </h1>
-        <p className="text-gray-400 text-sm mt-1">Your academic results and downloadable signed certificates per term.</p>
+        <p className="text-gray-400 text-sm mt-1">نتائجك الأكاديمية والشهادات المعتمدة القابلة للتحميل لكل فصل دراسي.</p>
       </div>
 
       <div className="space-y-8">
@@ -67,12 +67,12 @@ export default function ReportCards() {
                     <ScrollText className="w-5 h-5 text-emerald-glow" />
                     {card.period}
                   </h3>
-                  <p className="text-xs text-gray-400 mt-1 font-semibold">Certification: <span className="text-white">{card.certification}</span></p>
+                  <p className="text-xs text-gray-400 mt-1 font-semibold">الشهادة: <span className="text-white">{card.certification}</span></p>
                 </div>
                 <div className="text-right sm:text-center flex-shrink-0 flex flex-col items-end sm:items-center">
                   <p className="text-3xl font-extrabold font-mono text-white">{pct}<span className="text-gray-500 text-base">%</span></p>
                   <p className={cn("text-xs font-bold mt-0.5", card.passed ? "text-emerald-glow" : "text-neon-red")}>
-                    {card.passed ? "✓ Certified" : "✗ Not Passed"}
+                    {card.passed ? "✓ معتمد" : "✗ لم ينجح"}
                   </p>
                 </div>
               </div>
@@ -108,7 +108,7 @@ export default function ReportCards() {
                   className="flex items-center gap-2 px-5 py-2.5 bg-emerald-glow text-obsidian-950 font-bold rounded-xl text-xs hover:bg-emerald-glow/90 transition-colors cursor-pointer shadow-lg"
                 >
                   <Download className="w-4 h-4" />
-                  Download Signed Certificate (PDF)
+                  تحميل الشهادة الموقعة (PDF)
                 </button>
               )}
             </GlassCard>
@@ -118,3 +118,4 @@ export default function ReportCards() {
     </div>
   );
 }
+

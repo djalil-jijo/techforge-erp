@@ -55,12 +55,12 @@ const ALERTS = [
 
 export default function TeacherDashboard() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-right">
       {/* ============= العنوان | Header ============= */}
-      <div className="border-b border-obsidian-800 pb-6">
-        <div className="flex items-center gap-3 mb-2">
+      <div className="border-b border-obsidian-800 pb-6 text-right">
+        <div className="flex items-center gap-3 mb-2 justify-start flex-row-reverse">
           <h1 className="text-4xl font-extrabold text-white tracking-tight">
-            👋 مرحباً، الأستاذ أحمد
+            👋 مرحباً، الأستاذ لمين
           </h1>
           <span className="text-xs bg-cyber-cyan/10 border border-cyber-cyan/35 text-cyber-cyan font-mono px-3 py-1 rounded-full font-bold pulse-cyan">
             الحضور المباشر

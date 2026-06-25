@@ -8,7 +8,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-obsidian-950 text-foreground overflow-hidden">
+    <div className="flex min-h-screen bg-obsidian-950 text-foreground overflow-hidden text-right" dir="rtl">
       {/* Collapsible Sidebar */}
       <Sidebar />
 

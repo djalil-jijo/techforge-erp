@@ -19,6 +19,8 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  ShoppingBag,
+  ShoppingCart,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -103,12 +105,26 @@ export function Sidebar() {
       color: "hover:text-cyber-cyan hover:border-cyber-cyan/30",
       activeColor: "text-cyber-cyan border-cyber-cyan/45 bg-cyber-cyan/5",
     },
+    {
+      name: "إدارة المتجر",
+      icon: ShoppingBag,
+      path: "/admin/shop",
+      color: "hover:text-pink-400 hover:border-pink-400/30",
+      activeColor: "text-pink-400 border-pink-400/45 bg-pink-400/5",
+    },
+    {
+      name: "طلبات المتجر",
+      icon: ShoppingCart,
+      path: "/admin/shop/orders",
+      color: "hover:text-neon-purple hover:border-neon-purple/30",
+      activeColor: "text-neon-purple border-neon-purple/45 bg-neon-purple/5",
+    },
   ];
 
   return (
     <aside
       className={cn(
-        "glass-panel border-r border-obsidian-800 flex flex-col h-screen transition-all duration-300 z-30 sticky top-0",
+        "glass-panel border-l border-obsidian-800 flex flex-col h-screen transition-all duration-300 z-30 sticky top-0",
         collapsed ? "w-20" : "w-64"
       )}
     >
@@ -116,19 +132,19 @@ export function Sidebar() {
       <div className="h-20 border-b border-obsidian-800 flex items-center justify-between px-6">
         {!collapsed && (
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center pulse-cyan">
+            <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/33 flex items-center justify-center pulse-cyan">
               <span className="text-cyber-cyan font-bold text-lg font-mono">T</span>
             </div>
-            <div>
-              <span className="font-extrabold text-white font-sans tracking-wide text-sm">TECHFORGE</span>
+            <div className="text-right">
+              <span className="font-extrabold text-white font-sans tracking-wide text-sm">تك فورج</span>
               <span className="text-cyber-cyan text-xs font-mono block tracking-widest leading-none font-bold">
-                ADMIN
+                لوحة الإدارة
               </span>
             </div>
           </Link>
         )}
         {collapsed && (
-          <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center mx-auto pulse-cyan">
+          <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/33 flex items-center justify-center mx-auto pulse-cyan">
             <span className="text-cyber-cyan font-bold text-lg font-mono">T</span>
           </div>
         )}
@@ -177,9 +193,9 @@ export function Sidebar() {
           className="w-full mt-2 flex items-center justify-center py-2 text-gray-500 hover:text-cyber-cyan transition-colors"
         >
           {collapsed ? (
-            <ChevronRight className="w-5 h-5" />
-          ) : (
             <ChevronLeft className="w-5 h-5" />
+          ) : (
+            <ChevronRight className="w-5 h-5" />
           )}
         </button>
       </div>

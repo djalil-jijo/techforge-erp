@@ -33,7 +33,7 @@ export default function OrderService() {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-foreground flex flex-col justify-between relative overflow-x-hidden">
+    <div className="min-h-screen bg-obsidian-950 text-foreground flex flex-col justify-between relative overflow-x-hidden" dir="rtl">
       {/* Background Neon Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-laser-amber/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-cyan/5 rounded-full blur-[120px] pointer-events-none" />
@@ -46,7 +46,7 @@ export default function OrderService() {
           </div>
           <div>
             <span className="font-extrabold text-white font-sans tracking-wide">TECHFORGE</span>
-            <span className="text-laser-amber text-xs font-mono block tracking-widest leading-none font-bold">FabLab</span>
+            <span className="text-laser-amber text-xs font-mono block tracking-widest leading-none font-bold">مختبر FabLab</span>
           </div>
         </Link>
 
@@ -55,7 +55,7 @@ export default function OrderService() {
           className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          Gateway
+          الرجوع للرئيسية
         </Link>
       </header>
 
@@ -63,31 +63,31 @@ export default function OrderService() {
       <main className="max-w-5xl mx-auto px-6 py-12 md:py-16 z-10 w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Settings Form Column */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="space-y-2">
+          <div className="space-y-2 text-right">
             <span className="text-xs font-bold text-laser-amber font-mono uppercase tracking-wider">
-              Service Request Form
+              نموذج طلب خدمة تصنيع
             </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white">Rapid Manufacturing Pipeline</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white">شباك التصنيع الرقمي الفوري (FabLab)</h1>
             <p className="text-xs text-gray-400">
-              Configure parameters to calculate raw cost estimates for 3D prints or CNC routing slots.
+              اضبط المعايير والمواصفات المحددة لحساب التكلفة التقديرية للطباعة ثلاثية الأبعاد، أو الحفر بآلة CNC، أو القص بالليزر.
             </p>
           </div>
 
-          <GlassCard className="space-y-6 p-8" hoverable={false}>
+          <GlassCard className="space-y-6 p-8 text-right" hoverable={false}>
             {/* Service selector */}
             <div className="space-y-2 text-xs">
-              <label className="block text-gray-400 font-semibold">1. Choose Manufacturing Node</label>
+              <label className="block text-gray-400 font-semibold mb-2">1. اختر وحدة التصنيع الرقمي</label>
               <div className="grid grid-cols-3 gap-4">
                 {[
-                  { id: "3dp", name: "3D Printing", desc: "FDM / SLA printing" },
-                  { id: "cnc", name: "CNC Milling", desc: "Precision milling" },
-                  { id: "laser", name: "Laser Cutting", desc: "Acrylic & Wood cuts" },
+                  { id: "3dp", name: "طباعة 3D", desc: "تقنية FDM / SLA" },
+                  { id: "cnc", name: "حفر CNC", desc: "تشكيل عالي الدقة" },
+                  { id: "laser", name: "قص بالليزر", desc: "قص الخشب والأكريليك" },
                 ].map((item) => (
                   <button
                     key={item.id}
                     onClick={() => setService(item.id as any)}
                     className={cn(
-                      "p-3 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between h-20",
+                      "p-3 rounded-xl border text-right cursor-pointer transition-all flex flex-col justify-between h-20",
                       service === item.id
                         ? "bg-laser-amber/10 border-laser-amber text-laser-amber glow-border-amber"
                         : "bg-obsidian-950 border-obsidian-850 text-gray-500 hover:border-obsidian-800"
@@ -103,30 +103,30 @@ export default function OrderService() {
             {/* Inputs specs */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
               <div>
-                <label className="block text-gray-400 font-semibold mb-1">Material Specification</label>
+                <label className="block text-gray-400 font-semibold mb-1">مواصفات المادة المستخدمة</label>
                 <select
                   value={material}
                   onChange={(e) => setMaterial(e.target.value)}
-                  className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl p-3 text-gray-300 focus:outline-none focus:border-laser-amber"
+                  className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl p-3 text-gray-300 focus:outline-none focus:border-laser-amber text-right"
                 >
                   {service === "3dp" && (
                     <>
-                      <option>PLA Plastic (Standard)</option>
-                      <option>PETG (Durable)</option>
-                      <option>ABS (Industrial)</option>
+                      <option>بلاستيك PLA (قياسي)</option>
+                      <option>بلاستيك PETG (متين)</option>
+                      <option>بلاستيك ABS (صناعي)</option>
                     </>
                   )}
                   {service === "cnc" && (
                     <>
-                      <option>FR4 Copper Clad (PCBs)</option>
-                      <option>MDF Wood (Prototyping)</option>
-                      <option>Aluminum Block (Alloy)</option>
+                      <option>ألواح النحاس FR4 (للإلكترونيات)</option>
+                      <option>خشب MDF (للنماذج الأولية)</option>
+                      <option>سبيكة ألمنيوم</option>
                     </>
                   )}
                   {service === "laser" && (
                     <>
-                      <option>Plexiglass Acrylic (Clear)</option>
-                      <option>Plywood (3mm / 5mm)</option>
+                      <option>أكريليك بليكسي جلاس شفاف</option>
+                      <option>خشب رقائقي (3 مم / 5 مم)</option>
                     </>
                   )}
                 </select>
@@ -134,7 +134,7 @@ export default function OrderService() {
 
               {service === "3dp" ? (
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Infill Density ({infill}%)</label>
+                  <label className="block text-gray-400 font-semibold mb-1">كثافة الحشو الداخلي ({infill}%)</label>
                   <input
                     type="range"
                     min="10"
@@ -147,12 +147,12 @@ export default function OrderService() {
                 </div>
               ) : (
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Thickness (mm)</label>
-                  <select className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl p-3 text-gray-300 focus:outline-none focus:border-laser-amber">
-                    <option>1.6 mm</option>
-                    <option>3.0 mm</option>
-                    <option>5.0 mm</option>
-                    <option>10.0 mm</option>
+                  <label className="block text-gray-400 font-semibold mb-1">السُمك المطلوب (مم)</label>
+                  <select className="w-full bg-obsidian-950 border border-obsidian-850 rounded-xl p-3 text-gray-300 focus:outline-none focus:border-laser-amber text-right">
+                    <option>1.6 مم</option>
+                    <option>3.0 مم</option>
+                    <option>5.0 مم</option>
+                    <option>10.0 مم</option>
                   </select>
                 </div>
               )}
@@ -160,10 +160,10 @@ export default function OrderService() {
 
             {/* Model Dimensions */}
             <div className="space-y-2 text-xs">
-              <label className="block text-gray-400 font-semibold">Dimensions (Length x Width x Height in mm)</label>
-              <div className="grid grid-cols-3 gap-4">
+              <label className="block text-gray-400 font-semibold">الأبعاد الخارجية (الطول × العرض × الارتفاع بالـ مم)</label>
+              <div className="grid grid-cols-3 gap-4" dir="ltr">
                 <div>
-                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono">X Axis</span>
+                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono text-center">المحور س (X)</span>
                   <input
                     type="number"
                     value={dimensions.x}
@@ -172,7 +172,7 @@ export default function OrderService() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono">Y Axis</span>
+                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono text-center">المحور ص (Y)</span>
                   <input
                     type="number"
                     value={dimensions.y}
@@ -181,7 +181,7 @@ export default function OrderService() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono">Z Axis</span>
+                  <span className="text-[10px] text-gray-500 block mb-0.5 font-mono text-center">المحور ع (Z)</span>
                   <input
                     type="number"
                     value={dimensions.z}
@@ -194,7 +194,7 @@ export default function OrderService() {
 
             {/* File upload section */}
             <div className="space-y-2 text-xs">
-              <label className="block text-gray-400 font-semibold">CAD File Upload (STL, DXF, or STEP)</label>
+              <label className="block text-gray-400 font-semibold">رفع ملف التصميم الهندسي CAD (صيغة STL, DXF أو STEP)</label>
               <div className="border border-dashed border-obsidian-800 rounded-2xl p-6 text-center hover:border-laser-amber/40 transition-all bg-obsidian-950/50 relative cursor-pointer">
                 <input
                   type="file"
@@ -204,40 +204,40 @@ export default function OrderService() {
                 />
                 <Upload className="w-8 h-8 text-gray-500 mx-auto mb-2 animate-pulse" />
                 <span className="text-xs font-semibold text-gray-400 block">
-                  {fileName ? `Uploaded: ${fileName}` : "Drag and drop CAD file or click to browse"}
+                  {fileName ? `تم رفع الملف: ${fileName}` : "اسحب ملف التصميم وأسقطه هنا أو اضغط للتصفح من جهازك"}
                 </span>
-                <span className="text-[10px] text-gray-600 block mt-1">Maximum 50MB file size</span>
+                <span className="text-[10px] text-gray-600 block mt-1">الحجم الأقصى المسموح به 50 ميغابايت</span>
               </div>
             </div>
           </GlassCard>
         </div>
 
         {/* Pricing Estimator Column */}
-        <div className="space-y-6">
+        <div className="space-y-6 text-right">
           <GlassCard glowColor="amber" className="h-fit space-y-6 p-8" hoverable={false}>
             <h3 className="text-base font-bold text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-laser-amber" />
-              Pricing Telemetry
+              تفاصيل التكلفة التقديرية
             </h3>
 
             <div className="space-y-4 text-xs">
               <div className="flex justify-between py-2 border-b border-obsidian-850">
-                <span className="text-gray-500">Selected Node</span>
-                <span className="text-white font-mono uppercase font-bold">{service === "3dp" ? "3D Printer" : service === "cnc" ? "CNC Router" : "Laser Cutter"}</span>
+                <span className="text-gray-500">الوحدة المختارة</span>
+                <span className="text-white font-mono uppercase font-bold">{service === "3dp" ? "طابعة ثلاثية الأبعاد" : service === "cnc" ? "آلة حفر CNC" : "آلة قص ليزر"}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-obsidian-850">
-                <span className="text-gray-500">Material Selection</span>
+                <span className="text-gray-500">نوع المادة</span>
                 <span className="text-white font-mono">{material}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-obsidian-850">
-                <span className="text-gray-500">Dimensions (L*W*H)</span>
-                <span className="text-white font-mono">{dimensions.x}x{dimensions.y}x{dimensions.z} mm</span>
+                <span className="text-gray-500">الأبعاد (طول*عرض*ارتفاع)</span>
+                <span className="text-white font-mono">{dimensions.x}x{dimensions.y}x{dimensions.z} مم</span>
               </div>
               
               {/* Quantity */}
               <div className="flex justify-between items-center py-2 border-b border-obsidian-850">
-                <span className="text-gray-500">Production Quantity</span>
-                <div className="flex items-center gap-2">
+                <span className="text-gray-500">كمية الإنتاج المطلوبة</span>
+                <div className="flex items-center gap-2" dir="ltr">
                   <button 
                     onClick={() => setQty(q => Math.max(1, q - 1))}
                     className="w-6 h-6 border border-obsidian-800 bg-obsidian-950 rounded flex items-center justify-center hover:border-laser-amber text-gray-400 cursor-pointer font-bold"
@@ -256,19 +256,19 @@ export default function OrderService() {
 
               {/* Total Price Estimate */}
               <div className="pt-4 text-center">
-                <span className="text-[10px] text-gray-500 font-mono block uppercase">Estimated Production Fee</span>
+                <span className="text-[10px] text-gray-500 font-mono block uppercase">رسوم الإنتاج التقديرية</span>
                 <span className="text-3xl font-extrabold text-laser-amber font-mono glow-border-amber/10 tracking-tight block mt-1">
-                  {calculateEstimate().toLocaleString()} DZD
+                  {calculateEstimate().toLocaleString()} د.ج
                 </span>
-                <span className="text-[9px] text-gray-600 block mt-1">Estimations subject to engineer approval.</span>
+                <span className="text-[9px] text-gray-600 block mt-1">التقديرات خاضعة لمراجعة واعتماد المهندس المشرف.</span>
               </div>
 
               <button 
-                onClick={() => alert("Manufacturing protocol request dispatched.")}
+                onClick={() => alert("تم إرسال بروتوكول طلب التصنيع بنجاح إلى مهندس المختبر.")}
                 className="w-full bg-laser-amber text-white font-bold p-3 rounded-xl hover:bg-laser-amber/90 transition-colors shadow-lg cursor-pointer flex items-center justify-center gap-2 text-xs"
               >
                 <ShieldCheck className="w-4 h-4" />
-                Dispatch Order Protocol
+                إرسال بروتوكول الطلب للتصنيع
               </button>
             </div>
           </GlassCard>
@@ -277,7 +277,7 @@ export default function OrderService() {
           <div className="p-4 rounded-2xl bg-obsidian-900/40 border border-obsidian-850 flex gap-3 text-xs">
             <HelpCircle className="w-5 h-5 text-gray-500 flex-shrink-0" />
             <p className="text-gray-500 leading-relaxed">
-              For large batch CNC router runs or precision SLS printing files, contact the support desk directly to request discount slots.
+              للطلبات ذات الحجم الكبير أو أعمال الحفر الصناعي المعقدة، يرجى الاتصال بمكتب الدعم الفني مباشرة للحصول على تسعيرة خاصة.
             </p>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function OrderService() {
 
       {/* Footer */}
       <footer className="py-6 border-t border-obsidian-800 text-center text-[10px] text-gray-600 font-mono z-10 bg-obsidian-950/50">
-        © 2026 TECHFORGE FABLAB NODE. SEC SYSTEM ONLINE.
+        © 2026 مختبر التصنيع الرقمي FabLab • جمعية تك فورج للابتكار والتقنيات الحديثة
       </footer>
     </div>
   );
